@@ -16,6 +16,7 @@
 
 package org.grails.plugins.jasper
 
+import grails.validation.Validateable
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JasperPrint
 
@@ -31,7 +32,7 @@ import org.springframework.core.io.Resource
  * data(reportData and/or parameters) needed to fill the report.
  * @author Sebastian Hohns 2010
  */
-class JasperReportDef implements Serializable {
+class JasperReportDef implements Serializable, Validateable {
 
   /**
    * The name of the report file without extension.

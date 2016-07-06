@@ -28,7 +28,7 @@ class JasperController {
     JasperService jasperService
 
     @Deprecated
-    def index = {
+    def index() {
         def testModel = this.getProperties().containsKey('chainModel') ? chainModel : null
         addImagesURIIfHTMLReport(params, request.contextPath)
         JasperReportDef report = jasperService.buildReportDefinition(params, request.getLocale(), testModel)
@@ -39,7 +39,7 @@ class JasperController {
     /**
      * Generate a html response.
      */
-    def generateResponse = {reportDef ->
+    def generateResponse(JasperReportDef reportDef) {
         if (!reportDef.fileFormat.inline && !reportDef.parameters._inline) {
             response.setHeader("Content-disposition", "attachment; filename=" + (reportDef.parameters._name ?: reportDef.name) + "." + reportDef.fileFormat.extension)
             response.contentType = reportDef.fileFormat.mimeTyp
