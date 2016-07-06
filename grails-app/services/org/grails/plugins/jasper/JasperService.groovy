@@ -16,7 +16,8 @@
 
  package org.grails.plugins.jasper
 
- import groovy.sql.Sql
+import grails.transaction.Transactional
+import groovy.sql.Sql
 
 import java.lang.reflect.Field
 import java.sql.Connection
@@ -34,7 +35,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter
 import net.sf.jasperreports.engine.util.JRProperties
 
 import org.springframework.core.io.Resource
-import org.springframework.transaction.annotation.Transactional
 
 /**
  * Generates Jasper reports. Call one of the three generateReport methods to
