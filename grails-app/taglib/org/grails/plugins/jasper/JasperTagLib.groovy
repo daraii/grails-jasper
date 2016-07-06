@@ -90,7 +90,7 @@ class JasperTagLib {
                 if (i > 0) result += delimiter
                 result += """ <a class="${buttonClass}" title="${it}" href="${g.createLink(controller: controller, action: action, params: [_format: it, _name: reportName, _file: jasperName])}"> """
                 String iconName = "icons/${it.trim().toString()}.gif"
-                result += """<img border="0" alt="${it}" src="/assets/${iconName}"${heightAttr} /></a> """
+                result += """<img border="0" alt="${it}" src="/images/${iconName}"${heightAttr} /></a> """
             }
             result += delimiterAfter+' '+description
             out << result
@@ -117,7 +117,7 @@ class JasperTagLib {
             String iconName = "icons/${it.trim().toString()}.gif"
             result += """
         <a href="#" class="${buttonClass}" title="${it.trim()}" onclick="return submit_${jasperNameNoPunct}(this)">
-        <img border="0"  alt="${it.trim()}" src="/assets/${iconName}" ${heightAttr} /></a>
+        <img border="0"  alt="${it.trim()}" src="/images/${iconName}" ${heightAttr} /></a>
       """
         }
         result += delimiterAfter
