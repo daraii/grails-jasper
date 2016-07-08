@@ -22,8 +22,6 @@ import spock.lang.Specification
 /**
  * @author craigjones Aug 11, 2008
  */
-@Integration
-@Rollback
 class JasperPluginSpec extends Specification {
     /**
      * Testing utility reduce all whitespace (spaces and line breaks) to single spaces (before comparing it).
@@ -55,12 +53,5 @@ class JasperPluginSpec extends Specification {
             'GOLF HOTEL LIMA' == squeezeWhitespace("   GOLF\n\nHOTEL  \n  LIMA   ")
             '\t \t X-RAY YANKEE\t\t ZULU' == squeezeWhitespace("  \t\n  \n\t   X-RAY\n \n\n\n YANKEE\t\t   \nZULU\n")
     }
-
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
 
 }
