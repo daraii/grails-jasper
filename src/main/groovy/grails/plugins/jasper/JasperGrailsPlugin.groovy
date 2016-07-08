@@ -4,7 +4,7 @@ import grails.plugins.Plugin
 import net.sf.jasperreports.j2ee.servlets.ImageServlet
 import org.springframework.boot.context.embedded.ServletRegistrationBean
 
-class GrailsJasperGrailsPlugin extends Plugin {
+class JasperGrailsPlugin extends Plugin {
     def grailsVersion = "3.0.2 > *"
     def pluginExcludes = [
             "grails-app/views/error.gsp",
@@ -19,11 +19,14 @@ class GrailsJasperGrailsPlugin extends Plugin {
     After installing, run your application and request (app-url)/jasper/demo for a demonstration and instructions.
     '''
     def profiles = ['web']
-
-    // URL to the plugin's documentation
     def documentation = "http://www.grails.org/plugin/jasper"
     def license = "APACHE"
-    def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPJASPER"]
+	def developers = [	[ name: "Burt Beckwith", email: "burt@burtbeckwith.com" ], 
+					  	[ name: "Puneet Behl", email: "puneet.behl007@gmail.com" ],
+					   	[ name: "Mansi Arora", email: "mansi.arora@tothenew.com" ],
+					   	[ name: "Manvendra Singh", email: "manvendrask@live.com" ],
+					]
+    def issueManagement = [system: "JIRA", url: "https://github.com/puneetbehl/grails-jasper/issues"]
     def scm = [url: "https://github.com/puneetbehl/grails-jasper"]
 
     Closure doWithSpring() {
