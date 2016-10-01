@@ -121,3 +121,19 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
+
+bintray {
+  pkg {
+  	user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    userOrg = '' // If you want to publish to an organization
+    name = "$project.name"
+	licenses = ['Apache-2.0']
+    issueTrackerUrl = "https://github.com/puneetbehl/grails-$project.name/issues"
+    vcsUrl = "https://github.com/puneetbehl/grails-$project.name"
+    version {
+      attributes = ['grails-plugin': "$project.group:$project.name"]
+      name = project.version
+    }
+  }
+}
