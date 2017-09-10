@@ -1,0 +1,28 @@
+[[installation]]
+=== Installation
+
+==== For Grails 3.x
+
+Add the following dependency under `build.gradle`:
+
+[source,groovy]
+----
+compile "org.grails.plugins:jasper:2.0.0.RC1"
+----
+
+==== For Grails 2.x
+
+Add the following plugin under plugins in BuildConfig.groovy:
+
+[source,groovy]
+----
+compile "org.grails.plugins:jasper:1.11.0"
+----
+
+#### What is installed?
+
+* The jars for executing .jasper reports (already compiled) and/or compiling them from .jrxml files, on the fly, first.
+* A GSP taglib for launching reports.
+* Corresponding controller and service logic (that can be invoked directly)
+* 32x32 icons (web-app/images/icons/*.gif) for every supported file format .
+* a demo GSP page

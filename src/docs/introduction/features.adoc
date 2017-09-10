@@ -1,0 +1,9 @@
+[[features]]
+
+=== Features
+
+* The jars for executing `.jasper` reports (already compiled) and/or compiling them from `.jrxml` files, on the fly, first.
+* A GSP taglib for launching reports.
+* Corresponding controller and service logic (that can be invoked directly)
+* `32x32` icons (`web-app/images/icons/*.gif`) for every supported file format .
+* A demo GSP page

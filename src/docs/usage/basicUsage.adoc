@@ -1,0 +1,140 @@
+[[basicUsage]]
+=== Basic usage
+
+==== Tags
+
+The plugin provides a number of tags to help with the integration in your pages.
+
+===== jasperReport
+
+The `jasperReport` tag generates a button for every file specified file format. With a click on one of these icons you generate the report which is returned as the response.
+
+[NOTE]
+==== 
+The `jasperReport` tag should not be nested with a form element, as it uses a form element in its implementation, and nesting of forms is not allowed.
+====
+
+
+[source,groovy]
+----
+<g:jasperReport
+          jasper="sample-jasper-plugin"
+          format="PDF,HTML,XML,CSV,XLS,RTF,TEXT,ODT,ODS,DOCX,XLSX,PPTX"
+          name="Parameter Example">
+		  
+    Your name: <input type="text" name="name"/>
+	
+</g:jasperReport>
+----
+
+The input of the text field will be passed to the report as a parameter.
+
+_Attributes:_
+
+* jasper - filepath, relative to your configured report folder, of the report, no file extension needed (Required)
+* format - supply the file formats you want to use in a simple list (Required)
+* name - name of the report
+* delimiter - delimiter between the icons representing the file formats.
+* delimiterBefore - delimiter in front of the icons
+* delimiterAfter - delimiter at the end of the icons
+* description - description of the report
+* buttonPosition - position of the icons (top or below)
+
+===== jasperForm
+
+The `jasperForm` works the same way as the `jasperReport` tag, but gives you more control over how the form is rendered in HTML.
+
+[NOTE]
+====
+The jasperForm tag should not be nested with a form element, as it uses a form element in its implementation, and nesting of forms is not allowed.
+====
+
+[source, groovy]
+----
+<g:jasperForm controller="jasper" action="exampleWithData" id="1498" jasper="w_iReport" >
+
+    ..form contents..
+	
+    <g:jasperButton format="pdf" jasper="jasper-test" text="PDF" />
+
+    .. other html..
+
+</g:jasperForm>
+----
+
+
+_Attributes:_
+
+* jasper - filepath, relative to your configured report folder, of the report, no file extension needed. (Required)
+* controller - The controller the form will submit to. (Required)
+* action - The action the form will submit to. (Required)
+* id - The id attribute for the form.
+* class - Style class to use for the form. The default is "jasperReport".
+
+===== jasperButton
+
+Use the `jasperButton` inside a `jasperForm` to submit and generate the report.
+
+[source, groovy]
+----
+ <g:jasperButton format="pdf" jasper="jasper-test" text="PDF" />
+
+----
+
+_Attributes:_
+
+* format - The name of the supported output format. ex. 'pdf' or 'PDF'. (Required)
+* class - Class of the element in addition to default.
+* text - Text to be included next to button ex. 'print'.
+
+==== Services
+
+From version 1.1 upwards it's possible to generate your report, without the controller action from above, with simple service methods (so that you can generate your reports with a cron job in combination with the Quartz plugin).
+
+The central element for this feature is a new wrapper class `JasperReportDef`. Instead of putting everything in the parameter map you create a simple object containing the relevant data.
+
+[source, groovy]
+----
+def reportDef = JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)
+
+----
+
+As you can see there are only two required attributes. Of course you need provide the name of your report and the target file format. All available file formats can be found in the `<strong>JasperExportFormat</strong>` enum. You just have to choose one.
+
+_JasperReportDef has the following properties:_
+
+* name - Name of the Report. (Required)
+* fileFormat - Fileformat of the Report. Please use the JasperExportFormat Enum. (Required)
+* folder - The folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.
+* reportData - Collection containing the data of your report (leave empty if you want to use a SQL query inside your report)
+* locale - Locale to use in the report generation.
+* parameters - All additional parameters as a Map.
+
+All you need to do now is to call one of the methods provided in `<strong>JasperService</strong>`:
+* `generateReport(JasperReportDef reportDef)` - Generate a "normal" report.
+* `generateReport(List<JasperReportDef> reports)` - Generate a single response containing multiple reports.
+	
+Both return a ByteArrayOutputStream with which you can do everything you want.
+
+[source, groovy]
+----
+import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
+import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
+
+class YourClass {
+	
+	def jasperService
+	
+	public void yourMethod() {
+		def reportDef = new JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)
+		FileUtils.writeByteArrayToFile(new File("/your/target/path/test.pdf"), jasperService.generateReport(reportDef).toByteArray())
+	}
+}
+
+----
+
+[NOTE]
+====
+The example above uses the apache common-io `FileUtils` to store the response on the disc.
+====
+

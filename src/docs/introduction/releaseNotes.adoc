@@ -1,0 +1,120 @@
+[[releaseNotes]]
+=== Release Notes
+.Version
+
+.Version 1.7
+
+* Update to jasperreport 5.5.0
+* Cleanup (Thanks to Burt Beckwith)
+* various bugfixes
+
+.Version 1.5 - release 12-Dec-2013 
+
+* Update to jasperreport 4.5.0 and POI 3.7
+* Support for Images in HTML Reports (thanks to Rafael Gutierrez for the patch)
+* various bugfixes
+
+.Version 1.2 - release 9-Jan-2012
+
+* Update to jasperreport 4.0.0 (sounds like a new major release of the lib, but it isn't)
+
+
+.Version 1.1.0 - release 7-Aug-2010
+
+[small]#New features:#
+
+* Update to jasperreport 3.7.4
+* generate reports with service methods (see the included demo.gsp for documentation)
+
+
+.Version 1.0.0 - release 08-Jul-2010
+
+[small]#New features:#
+
+* Support for OpenDocument and OOXML export (ODS, ODT, DOCX, XLSX, PPTX)
+* Option to disable default parameters
+* Parameter pass-through
+* Japser libraries updated to newest version (3.7.3)
+* Refactored service with the ability to create a single document form more than one jrxml/jasper file.
+* finally uses packages
+
+[small]#Bug fixes: Changelog#
+
+
+.Version 0.9.5 - release 23-Jan-2009
+
+[small]#New features:#
+
+* New tags which allow for greater control of JasperForms layout and button placement, and unobtrusive JS and CSS. see demo.gsp for documentation
+* Icons rendered via CSS and new small PDF icon included
+* Can now use latest iReport to edit reports thanks to updated Jasper libraries
+
+
+.Version 0.9 (Thanks to Craig Jones)
+[small]#_(Pending release as of 16-Aug-2008, so obtain from subversion trunk)_#
+
+[small]#New features:#
+
+* Added many new attributes to `<g:jasperReport>` that control the rendering (see demo.gsp)
+* Now, if the g:jasperReport tag does not have a body, then the rendered HTML will be just a series of one or more `<A>` tags (no form and no javascript for submitting said form).
+* Combined the redundant admin.gsp and howto.gsp into a single demo.gsp.
+* Added lots more documentation and examples to demo.gsp.
+
+[small]#Bug fixes:#
+
+* The Format attribute is now tolerant of lower case format values (pdf vs. PDF) and spaces between values.
+* The tag validation code now checks for the two required attributes: jasper and format
+* Rendering now uses `\&nbsp;` and `<strong>` (rather than nothing and `<b>`) in places
+* No longer renders the word "null" when the name attribute is left blank
+
+[small]#Infrastructure changes:#
+
+* Numerous. (See subversion log.)
+
+
+.Version 0.8
+
+[small]#New features:#
+
+* Attribute `from` was removed.
+* Attributes `controller` and 'action' was included.
+* The developer have to use the follow architecture if the developer don't want to use SQL into reports:
+
+
+.Version 0.7.7 (Thanks to Achim Breunig)
+
+[small]#New features:#
+
+* Attribute 'inline=<boolean>' was included in jasperReport tag. Now, pdf-files can be shown inline in the web-browser.
+
+[small]#Bug fixed:#
+
+* Solved problem that the 'format'-attribute did not accept spaces.
+* Solved problem that sometimes the from-parameter was not found.
+* The default locale of the report is the request locale.
+* The default subreport folder is the same of the report.
+
+
+.Version 0.7.6
+
+[small]#New features:#
+
+* The user can to retrieve data report from domain classes:
+* Attribute 'from' was included in jasperReport tag.
+* XLS parameters were improved: (Thanks to Sebastian Esch)
+* One page per sheet;
+* Auto detect cell type;
+* Remove empty space between rows;
+* White page background is disabled.
+
+[small]#Bug fixed:#
+
+* Plugin didn't work on Linux (File separator was wrong). (Thanks to Sebastian Esch)
+
+
+.Version 0.7.5
+
+[small]#Bug fixed:#
+
+* Bug in JasperService.groovy that can cause connection leaks, connection is never closed. (Thanks to Pass F. B. Travis)
+
