@@ -3,7 +3,7 @@
 
 # Usage
 
-For usage information, please see http://grails.org/plugin/jasper
+For usage information, please see https://puneetbehl.github.io/grails-jasper/
 
 # How to build this plugin
 
