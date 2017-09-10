@@ -1,0 +1,19 @@
+[[quickstart]]
+== Quickstart Guide
+
+The guide will show how to call JasperReports from Grails application
+
+To follow this tutorial, you first have to create the Racetrack application from Getting Started with Grails. But of course you can use your own application, just remember to do the necessary changes as you follow along.
+
+=== Install the plugin
+
+Edit `build.gradle` file from the root of the project.
+
+Add following dependency:
+
+```groovy
+compile "org.grails.plugins:jasper:2.0.0.RC1"
+```
+
+
+TBD ...

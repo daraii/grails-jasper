@@ -1,0 +1,38 @@
+[[configuration]]
+=== Configuration
+
+The default location for your report templates is `/src/main/webapp/reports` in your project directory. Here you can place your *.jasper or *.jrxml (jrxml files will be compiled automatically by the plugin).
+
+[[INFO]]
+====
+Work with `jrxml` files if you can! They can be compiled by the plugin if a newer jasperreport version is available. This way you don't need to manually recompile all your reports if you want to use the new version with braking changes.
+====
+
+You can set another report folder location with the jasper.dir.reports property in your `application.yml`.
+
+[source, yaml]
+.application.yml
+----
+jasper:
+	dir:
+		reports: '../src/main/webapp/reports'
+
+----
+
+It's possible to use different locations for different environments.
+
+[source, yaml]
+.application.yml
+----
+environments:
+	development:
+		jasper:
+			dir:
+				reports: '../src/main/webapp/reports'
+	production:
+		jasper:
+			dir:
+				reports: '/home/jasper-reports'
+
+----
+
