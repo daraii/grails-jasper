@@ -5,8 +5,9 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Puneet Behl">
 <meta name="copyright" content="Apache License, Version 2.0">
-<title>Untitled</title>
+<title>Elasticsearch Grails Plugin - Samples</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -419,16 +420,177 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
-<body class="book">
+<body class="book toc2 toc-left">
 <div id="header">
+<h1>Elasticsearch Grails Plugin - Samples</h1>
+<div class="details">
+<span id="author" class="author">Puneet Behl</span><br>
+<span id="revnumber">version 0.1</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#installation">1. Installation</a></li>
+<li><a href="#Boost">2. Boost</a>
+<ul class="sectlevel2">
+<li><a href="#index-time-boost">2.1. Index time <code>boost</code> 'or' Static boosting</a></li>
+<li><a href="#query-time-boost">2.2. Query time <code>boost</code> 'or' Dynamic boosting</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="installation">1. Installation</h2>
+<div class="sectionbody">
 
+</div>
+</div>
+<div class="sect1">
+<h2 id="Boost">2. Boost</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you don&#8217;t know what does <code>boost</code> means in Elasticsearch. I would suggest to give a quick read at <a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/_boosting_query_clauses.html">Elasticsearch documentation</a> on <code>boost</code></p>
+</div>
+<div class="paragraph">
+<p>In Grails Elasticsearch plugin, <code>boost</code> is possible in two ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-index-boost.html">Index time boost</a> or Static boosting</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/mapping-boost.html">Query time boost</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="index-time-boost">2.1. Index time <code>boost</code> 'or' Static boosting</h3>
+<div class="paragraph">
+<p>In this <code>boost</code> factor is calculated based on the nature of document.</p>
+</div>
+<div id="NOTE" class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Using index time boosting you need to reindex to change the boosting behaviour.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>boost</code> factor at index time sets a document related boost. That is, a factor depending on the nature of the document is being set in the relevance scoring formula.</p>
+</div>
+<div class="sect3">
+<h4 id="example">2.1.1. Example:</h4>
+<div class="paragraph">
+<p>The number of links pointing to this document (also known as popularity or authority ranking in web search). Such a boost factor is also called "static boost" since it does not change from query to query. If static boost must change, the whole document must be reindexed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-javascript" data-lang="javascript">PUT esdemo_v0
+{
+  "mappings": {
+    "book": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "boost": 2
+        },
+        "content": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div id="INFO" class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Matches on the title field will have twice the weight as those on the content field, which has the default boost of 1.0.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The only advantage that index time boosting has is that it is copied with the value into the <code>_all</code> field. This means that, when querying the <code>_all</code> field, words that originated from the title field will have a higher score than words that originated in the content field. This functionality comes at a cost: queries on the _all field are slower when index-time boosting is used.</p>
+</div>
+<div class="paragraph">
+<p>You can achieve this using Elasticsearch Grails plugin as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package esdemo
+
+class Book {
+    String title
+    String content
+    String datePublished
+
+    static searchable = {
+        title boost: 2.0
+        content boost: 1.0
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, when you query on <code>Book</code> domain, then you wiil notice that in result, instance having "Elasticsearch" in <code>title</code> field has double score as compared to other having "Elasticsearch" in content. Following is the test case which illustrate this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void "should double the score of search hit when 'Elasticsearch` is found in title field as compared to content field"() {
+        setup:
+        List&lt;Book&gt; books =[]
+        books &lt;&lt; new Book(title: "Elasticsearch Introduction", content: "basic introduction", datePublished: new Date()).save(flush: true, failOnError: true)
+        books &lt;&lt; new Book(title: "Hello World", content: "Elasticsearch", datePublished: new Date()).save(flush: true, failOnError: true)
+
+        when:
+        elasticSearchService.index(Book)
+        elasticSearchAdminService.refresh()
+        def results = Book.search("Elasticsearch", [score: true])
+
+        then:
+        results.scores["1"] == 2 * results.scores["2"]
+
+        cleanup:
+        Book.deleteAll()
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Result</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">results.scores["1"] == 2 * results.scores["2"]
+|       |     |     |    | |       |     |
+|       |     |     true | |       |     |
+|       |     0.2972674  | |       |     0.1486337
+|       |                | |       [1:0.2972674, 2:0.1486337]
+|       |                | [total:2, searchResults:[esdemo.Book : 1, esdemo.Book : 2], scores:[1:0.2972674, 2:0.1486337]]
+|       |                0.2972674
+|       [1:0.2972674, 2:0.1486337]
+[total:2, searchResults:[esdemo.Book : 1, esdemo.Book : 2], scores:[1:0.2972674, 2:0.1486337]]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="query-time-boost">2.2. Query time <code>boost</code> 'or' Dynamic boosting</h3>
+<div class="sect3">
+<h4 id="example-2">2.2.1. Example</h4>
+<div class="paragraph">
+<p>The <code>boost</code> factor given at query time is query term related. That is, a factor depending on a term in the query is being set in the relevance scoring formula. Example: hits on docs with a certain term should be ranked higher than hits on docs with other terms in the query. Such a boost factor is called "dynamic boost" because it can change from query to query. There is no need to reindex docs.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2017-09-11 23:04:45 +05:30
+Last updated 2017-09-13 13:21:14 +05:30
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
