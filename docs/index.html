@@ -7,7 +7,7 @@
 <meta name="generator" content="Asciidoctor 1.5.4">
 <meta name="author" content="Puneet Behl">
 <meta name="copyright" content="Apache License, Version 2.0">
-<title>Elasticsearch Grails Plugin - Samples</title>
+<title>Grails Jasper Plugin - Reference Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -422,19 +422,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>Elasticsearch Grails Plugin - Samples</h1>
+<h1>Grails Jasper Plugin - Reference Documentation</h1>
 <div class="details">
 <span id="author" class="author">Puneet Behl</span><br>
-<span id="revnumber">version 0.1</span>
+<span id="revnumber">version 2.0.0.RC1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#installation">1. Installation</a></li>
-<li><a href="#Boost">2. Boost</a>
+<li><a href="#introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#index-time-boost">2.1. Index time <code>boost</code> 'or' Static boosting</a></li>
-<li><a href="#query-time-boost">2.2. Query time <code>boost</code> 'or' Dynamic boosting</a></li>
+<li><a href="#features">1.1. Features</a></li>
+<li><a href="#issues">1.2. Issues</a></li>
+<li><a href="#releaseNotes">1.3. Release Notes</a></li>
+<li><a href="#acknowledgements">1.4. Acknowledgments</a></li>
+<li><a href="#license">1.5. License</a></li>
+</ul>
+</li>
+<li><a href="#usage">2. Usage</a>
+<ul class="sectlevel2">
+<li><a href="#installation">2.1. Installation</a></li>
+<li><a href="#configuration">2.2. Configuration</a></li>
+<li><a href="#basicUsage">2.3. Basic usage</a></li>
+</ul>
+</li>
+<li><a href="#quickstart">3. Quickstart Guide</a>
+<ul class="sectlevel2">
+<li><a href="#install-the-plugin">3.1. Install the plugin</a></li>
 </ul>
 </li>
 </ul>
@@ -442,146 +456,683 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="installation">1. Installation</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="Boost">2. Boost</h2>
+<h2 id="introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you don&#8217;t know what does <code>boost</code> means in Elasticsearch. I would suggest to give a quick read at <a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/_boosting_query_clauses.html">Elasticsearch documentation</a> on <code>boost</code></p>
+<p>JasperReports is an open source Java reporting tool that can write to a variety of targets, such as: screen, a printer, into PDF, HTML, Microsoft Excel, RTF, ODT, Comma-separated values or XML files. It can be used in Java-enabled applications, including Java EE or web applications, to generate dynamic content.</p>
 </div>
 <div class="paragraph">
-<p>In Grails Elasticsearch plugin, <code>boost</code> is possible in two ways:</p>
+<p>This plugin adds easy support for launching jasper reports from GSP pages. After installing, run your application and request (app-url)/jasper/demo for a demonstration and instructions.</p>
+</div>
+<div class="paragraph">
+<p>In addition to this document, you may want to read official Jasper Reports Library Documentation <a href="http://community.jaspersoft.com/project/jasperreports-library/resources">here</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="features">1.1. Features</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The jars for executing <code>.jasper</code> reports (already compiled) and/or compiling them from <code>.jrxml</code> files, on the fly, first.</p>
+</li>
+<li>
+<p>A GSP taglib for launching reports.</p>
+</li>
+<li>
+<p>Corresponding controller and service logic (that can be invoked directly)</p>
+</li>
+<li>
+<p><code>32x32</code> icons (<code>web-app/images/icons/*.gif</code>) for every supported file format .</p>
+</li>
+<li>
+<p>A demo GSP page</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="issues">1.2. Issues</h3>
+<div class="paragraph">
+<p>All issues must be reported to <a href="https://github.com/puneetbehl/grails-jasper/issues">GitHub Issues</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="releaseNotes">1.3. Release Notes</h3>
+<div class="ulist">
+<div class="title">Version 1.7</div>
+<ul>
+<li>
+<p>Update to jasperreport 5.5.0</p>
+</li>
+<li>
+<p>Cleanup (Thanks to Burt Beckwith)</p>
+</li>
+<li>
+<p>various bugfixes</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Version 1.5 - release 12-Dec-2013</div>
+<ul>
+<li>
+<p>Update to jasperreport 4.5.0 and POI 3.7</p>
+</li>
+<li>
+<p>Support for Images in HTML Reports (thanks to Rafael Gutierrez for the patch)</p>
+</li>
+<li>
+<p>various bugfixes</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Version 1.2 - release 9-Jan-2012</div>
+<ul>
+<li>
+<p>Update to jasperreport 4.0.0 (sounds like a new major release of the lib, but it isn&#8217;t)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 1.1.0 - release 7-Aug-2010</div>
+<p><span class="small">New features:</span></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-index-boost.html">Index time boost</a> or Static boosting</p>
+<p>Update to jasperreport 3.7.4</p>
 </li>
 <li>
-<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/mapping-boost.html">Query time boost</a></p>
+<p>generate reports with service methods (see the included demo.gsp for documentation)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<div class="title">Version 1.0.0 - release 08-Jul-2010</div>
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Support for OpenDocument and OOXML export (ODS, ODT, DOCX, XLSX, PPTX)</p>
+</li>
+<li>
+<p>Option to disable default parameters</p>
+</li>
+<li>
+<p>Parameter pass-through</p>
+</li>
+<li>
+<p>Japser libraries updated to newest version (3.7.3)</p>
+</li>
+<li>
+<p>Refactored service with the ability to create a single document form more than one jrxml/jasper file.</p>
+</li>
+<li>
+<p>finally uses packages</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small">Bug fixes: Changelog</span></p>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.9.5 - release 23-Jan-2009</div>
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>New tags which allow for greater control of JasperForms layout and button placement, and unobtrusive JS and CSS. see demo.gsp for documentation</p>
+</li>
+<li>
+<p>Icons rendered via CSS and new small PDF icon included</p>
+</li>
+<li>
+<p>Can now use latest iReport to edit reports thanks to updated Jasper libraries</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.9 (Thanks to Craig Jones)</div>
+<p><span class="small"><em>(Pending release as of 16-Aug-2008, so obtain from subversion trunk)</em></span></p>
+</div>
+<div class="paragraph">
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Added many new attributes to <code>&lt;g:jasperReport&gt;</code> that control the rendering (see demo.gsp)</p>
+</li>
+<li>
+<p>Now, if the g:jasperReport tag does not have a body, then the rendered HTML will be just a series of one or more <code>&lt;A&gt;</code> tags (no form and no javascript for submitting said form).</p>
+</li>
+<li>
+<p>Combined the redundant admin.gsp and howto.gsp into a single demo.gsp.</p>
+</li>
+<li>
+<p>Added lots more documentation and examples to demo.gsp.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small">Bug fixes:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Format attribute is now tolerant of lower case format values (pdf vs. PDF) and spaces between values.</p>
+</li>
+<li>
+<p>The tag validation code now checks for the two required attributes: jasper and format</p>
+</li>
+<li>
+<p>Rendering now uses <code>&amp;nbsp;</code> and <code>&lt;strong&gt;</code> (rather than nothing and <code>&lt;b&gt;</code>) in places</p>
+</li>
+<li>
+<p>No longer renders the word "null" when the name attribute is left blank</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small">Infrastructure changes:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Numerous. (See subversion log.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.8</div>
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Attribute <code>from</code> was removed.</p>
+</li>
+<li>
+<p>Attributes <code>controller</code> and 'action' was included.</p>
+</li>
+<li>
+<p>The developer have to use the follow architecture if the developer don&#8217;t want to use SQL into reports:</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.7.7 (Thanks to Achim Breunig)</div>
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Attribute 'inline=&lt;boolean&gt;' was included in jasperReport tag. Now, pdf-files can be shown inline in the web-browser.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small">Bug fixed:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Solved problem that the 'format'-attribute did not accept spaces.</p>
+</li>
+<li>
+<p>Solved problem that sometimes the from-parameter was not found.</p>
+</li>
+<li>
+<p>The default locale of the report is the request locale.</p>
+</li>
+<li>
+<p>The default subreport folder is the same of the report.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.7.6</div>
+<p><span class="small">New features:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The user can to retrieve data report from domain classes:</p>
+</li>
+<li>
+<p>Attribute 'from' was included in jasperReport tag.</p>
+</li>
+<li>
+<p>XLS parameters were improved: (Thanks to Sebastian Esch)</p>
+</li>
+<li>
+<p>One page per sheet;</p>
+</li>
+<li>
+<p>Auto detect cell type;</p>
+</li>
+<li>
+<p>Remove empty space between rows;</p>
+</li>
+<li>
+<p>White page background is disabled.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="small">Bug fixed:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Plugin didn&#8217;t work on Linux (File separator was wrong). (Thanks to Sebastian Esch)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Version 0.7.5</div>
+<p><span class="small">Bug fixed:</span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bug in JasperService.groovy that can cause connection leaks, connection is never closed. (Thanks to Pass F. B. Travis)</p>
+</li>
+</ul>
+</div>
+</div>
 <div class="sect2">
-<h3 id="index-time-boost">2.1. Index time <code>boost</code> 'or' Static boosting</h3>
+<h3 id="acknowledgements">1.4. Acknowledgments</h3>
 <div class="paragraph">
-<p>In this <code>boost</code> factor is calculated based on the nature of document.</p>
-</div>
-<div id="NOTE" class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>Using index time boosting you need to reindex to change the boosting behaviour.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>boost</code> factor at index time sets a document related boost. That is, a factor depending on the nature of the document is being set in the relevance scoring formula.</p>
+<p>Many thanks to all the users who reported issues and sent pull requests.</p>
 </div>
 <div class="sect3">
-<h4 id="example">2.1.1. Example:</h4>
+<h4 id="authors-and-contributors">1.4.1. Authors and Contributors</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/candrews">Craig Andrews</a></p>
+</li>
+<li>
+<p><a href="https://github.com/burtbeckwith">Burt Beckwith</a></p>
+</li>
+<li>
+<p><a href="https://github.com/puneetbehl">Puneet Behl</a></p>
+</li>
+<li>
+<p><a href="https://github.com/mansi90">Mansi Arora</a></p>
+</li>
+<li>
+<p><a href="https://github.com/ManvendraSK">Manvendra Singh</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="license">1.5. License</h3>
 <div class="paragraph">
-<p>The number of links pointing to this document (also known as popularity or authority ranking in web search). Such a boost factor is also called "static boost" since it does not change from query to query. If static boost must change, the whole document must be reindexed.</p>
+<p>This plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usage">2. Usage</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="installation">2.1. Installation</h3>
+<div class="sect3">
+<h4 id="for-grails-3-x">2.1.1. For Grails 3.x</h4>
+<div class="paragraph">
+<p>Add the following dependency under <code>build.gradle</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-javascript" data-lang="javascript">PUT esdemo_v0
-{
-  "mappings": {
-    "book": {
-      "properties": {
-        "title": {
-          "type": "string",
-          "boost": 2
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    }
-  }
-}</code></pre>
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:jasper:2.0.0.RC1"</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="for-grails-2-x">2.1.2. For Grails 2.x</h4>
+<div class="paragraph">
+<p>Add the following plugin under plugins in BuildConfig.groovy:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:jasper:1.11.0"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="what-is-installed">2.1.3. What is installed?</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The jars for executing .jasper reports (already compiled) and/or compiling them from .jrxml files, on the fly, first.</p>
+</li>
+<li>
+<p>A GSP taglib for launching reports.</p>
+</li>
+<li>
+<p>Corresponding controller and service logic (that can be invoked directly)</p>
+</li>
+<li>
+<p>32x32 icons (web-app/images/icons/*.gif) for every supported file format .</p>
+</li>
+<li>
+<p>a demo GSP page</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuration">2.2. Configuration</h3>
+<div class="paragraph">
+<p>The default location for your report templates is <code>/src/main/webapp/reports</code> in your project directory. Here you can place your *.jasper or *.jrxml (jrxml files will be compiled automatically by the plugin).</p>
 </div>
 <div id="INFO" class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Matches on the title field will have twice the weight as those on the content field, which has the default boost of 1.0.</p>
+<p>Work with <code>jrxml</code> files if you can! They can be compiled by the plugin if a newer jasperreport version is available. This way you don&#8217;t need to manually recompile all your reports if you want to use the new version with braking changes.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>The only advantage that index time boosting has is that it is copied with the value into the <code>_all</code> field. This means that, when querying the <code>_all</code> field, words that originated from the title field will have a higher score than words that originated in the content field. This functionality comes at a cost: queries on the _all field are slower when index-time boosting is used.</p>
-</div>
-<div class="paragraph">
-<p>You can achieve this using Elasticsearch Grails plugin as:</p>
+<p>You can set another report folder location with the jasper.dir.reports property in your <code>application.yml</code>.</p>
 </div>
 <div class="listingblock">
+<div class="title">application.yml</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">package esdemo
-
-class Book {
-    String title
-    String content
-    String datePublished
-
-    static searchable = {
-        title boost: 2.0
-        content boost: 1.0
-    }
-}</code></pre>
+<pre class="prettyprint highlight"><code class="language-yaml" data-lang="yaml">jasper:
+	dir:
+		reports: '../src/main/webapp/reports'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now, when you query on <code>Book</code> domain, then you wiil notice that in result, instance having "Elasticsearch" in <code>title</code> field has double score as compared to other having "Elasticsearch" in content. Following is the test case which illustrate this:</p>
+<p>It&#8217;s possible to use different locations for different environments.</p>
 </div>
 <div class="listingblock">
+<div class="title">application.yml</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">    void "should double the score of search hit when 'Elasticsearch` is found in title field as compared to content field"() {
-        setup:
-        List&lt;Book&gt; books =[]
-        books &lt;&lt; new Book(title: "Elasticsearch Introduction", content: "basic introduction", datePublished: new Date()).save(flush: true, failOnError: true)
-        books &lt;&lt; new Book(title: "Hello World", content: "Elasticsearch", datePublished: new Date()).save(flush: true, failOnError: true)
-
-        when:
-        elasticSearchService.index(Book)
-        elasticSearchAdminService.refresh()
-        def results = Book.search("Elasticsearch", [score: true])
-
-        then:
-        results.scores["1"] == 2 * results.scores["2"]
-
-        cleanup:
-        Book.deleteAll()
-    }</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Result</div>
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">results.scores["1"] == 2 * results.scores["2"]
-|       |     |     |    | |       |     |
-|       |     |     true | |       |     |
-|       |     0.2972674  | |       |     0.1486337
-|       |                | |       [1:0.2972674, 2:0.1486337]
-|       |                | [total:2, searchResults:[esdemo.Book : 1, esdemo.Book : 2], scores:[1:0.2972674, 2:0.1486337]]
-|       |                0.2972674
-|       [1:0.2972674, 2:0.1486337]
-[total:2, searchResults:[esdemo.Book : 1, esdemo.Book : 2], scores:[1:0.2972674, 2:0.1486337]]</code></pre>
-</div>
+<pre class="prettyprint highlight"><code class="language-yaml" data-lang="yaml">environments:
+	development:
+		jasper:
+			dir:
+				reports: '../src/main/webapp/reports'
+	production:
+		jasper:
+			dir:
+				reports: '/home/jasper-reports'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="query-time-boost">2.2. Query time <code>boost</code> 'or' Dynamic boosting</h3>
+<h3 id="basicUsage">2.3. Basic usage</h3>
 <div class="sect3">
-<h4 id="example-2">2.2.1. Example</h4>
+<h4 id="tags">2.3.1. Tags</h4>
 <div class="paragraph">
-<p>The <code>boost</code> factor given at query time is query term related. That is, a factor depending on a term in the query is being set in the relevance scoring formula. Example: hits on docs with a certain term should be ranked higher than hits on docs with other terms in the query. Such a boost factor is called "dynamic boost" because it can change from query to query. There is no need to reindex docs.</p>
+<p>The plugin provides a number of tags to help with the integration in your pages.</p>
 </div>
+<div class="sect4">
+<h5 id="jasperreport">jasperReport</h5>
+<div class="paragraph">
+<p>The <code>jasperReport</code> tag generates a button for every file specified file format. With a click on one of these icons you generate the report which is returned as the response.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>jasperReport</code> tag should not be nested with a form element, as it uses a form element in its implementation, and nesting of forms is not allowed.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">&lt;g:jasperReport
+          jasper="sample-jasper-plugin"
+          format="PDF,HTML,XML,CSV,XLS,RTF,TEXT,ODT,ODS,DOCX,XLSX,PPTX"
+          name="Parameter Example"&gt;
+
+    Your name: &lt;input type="text" name="name"/&gt;
+
+&lt;/g:jasperReport&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The input of the text field will be passed to the report as a parameter.</p>
+</div>
+<div class="paragraph">
+<p><em>Attributes:</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>jasper - filepath, relative to your configured report folder, of the report, no file extension needed (Required)</p>
+</li>
+<li>
+<p>format - supply the file formats you want to use in a simple list (Required)</p>
+</li>
+<li>
+<p>name - name of the report</p>
+</li>
+<li>
+<p>delimiter - delimiter between the icons representing the file formats.</p>
+</li>
+<li>
+<p>delimiterBefore - delimiter in front of the icons</p>
+</li>
+<li>
+<p>delimiterAfter - delimiter at the end of the icons</p>
+</li>
+<li>
+<p>description - description of the report</p>
+</li>
+<li>
+<p>buttonPosition - position of the icons (top or below)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jasperform">jasperForm</h5>
+<div class="paragraph">
+<p>The <code>jasperForm</code> works the same way as the <code>jasperReport</code> tag, but gives you more control over how the form is rendered in HTML.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The jasperForm tag should not be nested with a form element, as it uses a form element in its implementation, and nesting of forms is not allowed.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">&lt;g:jasperForm controller="jasper" action="exampleWithData" id="1498" jasper="w_iReport" &gt;
+
+    ..form contents..
+
+    &lt;g:jasperButton format="pdf" jasper="jasper-test" text="PDF" /&gt;
+
+    .. other html..
+
+&lt;/g:jasperForm&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Attributes:</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>jasper - filepath, relative to your configured report folder, of the report, no file extension needed. (Required)</p>
+</li>
+<li>
+<p>controller - The controller the form will submit to. (Required)</p>
+</li>
+<li>
+<p>action - The action the form will submit to. (Required)</p>
+</li>
+<li>
+<p>id - The id attribute for the form.</p>
+</li>
+<li>
+<p>class - Style class to use for the form. The default is "jasperReport".</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jasperbutton">jasperButton</h5>
+<div class="paragraph">
+<p>Use the <code>jasperButton</code> inside a <code>jasperForm</code> to submit and generate the report.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy"> &lt;g:jasperButton format="pdf" jasper="jasper-test" text="PDF" /&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Attributes:</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>format - The name of the supported output format. ex. 'pdf' or 'PDF'. (Required)</p>
+</li>
+<li>
+<p>class - Class of the element in addition to default.</p>
+</li>
+<li>
+<p>text - Text to be included next to button ex. 'print'.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="services">2.3.2. Services</h4>
+<div class="paragraph">
+<p>From version 1.1 upwards it&#8217;s possible to generate your report, without the controller action from above, with simple service methods (so that you can generate your reports with a cron job in combination with the Quartz plugin).</p>
+</div>
+<div class="paragraph">
+<p>The central element for this feature is a new wrapper class <code>JasperReportDef</code>. Instead of putting everything in the parameter map you create a simple object containing the relevant data.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">def reportDef = JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see there are only two required attributes. Of course you need provide the name of your report and the target file format. All available file formats can be found in the <code>&lt;strong&gt;JasperExportFormat&lt;/strong&gt;</code> enum. You just have to choose one.</p>
+</div>
+<div class="paragraph">
+<p><em>JasperReportDef has the following properties:</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>name - Name of the Report. (Required)</p>
+</li>
+<li>
+<p>fileFormat - Fileformat of the Report. Please use the JasperExportFormat Enum. (Required)</p>
+</li>
+<li>
+<p>folder - The folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.</p>
+</li>
+<li>
+<p>reportData - Collection containing the data of your report (leave empty if you want to use a SQL query inside your report)</p>
+</li>
+<li>
+<p>locale - Locale to use in the report generation.</p>
+</li>
+<li>
+<p>parameters - All additional parameters as a Map.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All you need to do now is to call one of the methods provided in <code>&lt;strong&gt;JasperService&lt;/strong&gt;</code>:
+* <code>generateReport(JasperReportDef reportDef)</code> - Generate a "normal" report.
+* <code>generateReport(List&lt;JasperReportDef&gt; reports)</code> - Generate a single response containing multiple reports.</p>
+</div>
+<div class="paragraph">
+<p>Both return a ByteArrayOutputStream with which you can do everything you want.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
+import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
+
+class YourClass {
+
+	def jasperService
+
+	public void yourMethod() {
+		def reportDef = new JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)
+		FileUtils.writeByteArrayToFile(new File("/your/target/path/test.pdf"), jasperService.generateReport(reportDef).toByteArray())
+	}
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The example above uses the apache common-io <code>FileUtils</code> to store the response on the disc.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="quickstart">3. Quickstart Guide</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The guide will show how to call JasperReports from Grails application</p>
+</div>
+<div class="paragraph">
+<p>To follow this tutorial, you first have to create the Racetrack application from Getting Started with Grails. But of course you can use your own application, just remember to do the necessary changes as you follow along.</p>
+</div>
+<div class="sect2">
+<h3 id="install-the-plugin">3.1. Install the plugin</h3>
+<div class="paragraph">
+<p>Edit <code>build.gradle</code> file from the root of the project.</p>
+</div>
+<div class="paragraph">
+<p>Add following dependency:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:jasper:2.0.0.RC1"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>TBD &#8230;&#8203;</p>
 </div>
 </div>
 </div>
@@ -589,8 +1140,8 @@ class Book {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.1<br>
-Last updated 2017-09-13 13:21:14 +05:30
+Version 2.0.0.RC1<br>
+Last updated 2017-09-10 21:54:16 +05:30
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
