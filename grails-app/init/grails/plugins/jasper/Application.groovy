@@ -1,10 +1,10 @@
 package grails.plugins.jasper
 
-import grails.boot.GrailsApp
+import grails.boot.*
 import grails.boot.config.GrailsAutoConfiguration
-import org.springframework.context.annotation.ComponentScan
+import grails.plugins.metadata.*
 
-@ComponentScan(basePackages = ['org.grails.plugins.jasper', 'org.grails.plugins.jasper.demo'])
+@PluginSource
 class Application extends GrailsAutoConfiguration {
     static void main(String[] args) {
         GrailsApp.run(Application, args)

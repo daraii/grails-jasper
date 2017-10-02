@@ -16,8 +16,6 @@
 
 package grails.plugins.jasper
 
-import java.lang.reflect.Field
-
 import net.sf.jasperreports.engine.JRExporter
 import net.sf.jasperreports.engine.export.JRCsvExporter
 import net.sf.jasperreports.engine.export.JRCsvExporterParameter
@@ -32,6 +30,8 @@ import net.sf.jasperreports.engine.export.JRXlsExporter
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter
 import net.sf.jasperreports.engine.export.JRXmlExporter
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter
+import net.sf.jasperreports.engine.JRExporter
+import net.sf.jasperreports.engine.export.*
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter
@@ -39,10 +39,13 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
 
+import java.lang.reflect.Field
+
 /*
  * The supported file formats with their mimetype and file extension.
  * @author Sebastian Hohns
  */
+
 enum JasperExportFormat implements Serializable {
   PDF_FORMAT("application/pdf", "pdf", false),
   HTML_FORMAT("text/html", "html", true),

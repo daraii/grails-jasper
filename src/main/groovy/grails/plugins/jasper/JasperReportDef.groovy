@@ -16,6 +16,11 @@
 
 package grails.plugins.jasper
 
+import grails.util.Holders
+import grails.validation.Validateable
+import net.sf.jasperreports.engine.JRDataSource
+import net.sf.jasperreports.engine.JasperPrint
+import org.apache.commons.io.FilenameUtils
 import grails.validation.Validateable
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JasperPrint
