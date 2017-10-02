@@ -14,9 +14,6 @@ package grails.plugins.jasper
  * limitations under the License.
  */
 
-
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
 import spock.lang.Specification
 
 /**

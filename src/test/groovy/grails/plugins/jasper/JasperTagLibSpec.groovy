@@ -16,9 +16,7 @@ package grails.plugins.jasper
  */
 
 
-import grails.test.mixin.TestFor
-import grails.test.mixin.integration.Integration
-import grails.transaction.Rollback
+import grails.testing.web.taglib.TagLibUnitTest
 import org.grails.web.util.WebUtils
 import org.springframework.web.context.request.RequestAttributes
 import spock.lang.Specification
@@ -28,8 +26,7 @@ import spock.util.mop.ConfineMetaClassChanges
  * @author Puneet Behl
  */
 @ConfineMetaClassChanges(String)
-@TestFor(JasperTagLib)
-class JasperTagLibSpec extends Specification {
+class JasperTagLibSpec extends Specification implements TagLibUnitTest<JasperTagLib> {
 
 	static final String SCRIPT_PART = """<script type="text/javascript"> function submit_myreport(link) { link.parentNode._format.value = link.title;
           link.parentNode.submit(); return false; } </script> """

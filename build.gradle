@@ -58,49 +58,13 @@ dependencies {
 
     compile "com.lowagie:itext:2.1.7"
     compile("net.sf.jasperreports:jasperreports:5.6.1") {
-        exclude module: 'antlr'
-        exclude module: 'commons-logging'
-        exclude module: 'ant'
-        exclude module: 'mondrian'
-        exclude module: 'commons-javaflow'
-        exclude module: 'barbecue'
-        exclude module: 'xml-apis-ext'
-        exclude module: 'xml-apis'
-        exclude module: 'xalan'
-        exclude module: 'groovy-all'
-        exclude module: 'hibernate'
-        exclude module: 'saaj-api'
-        exclude module: 'servlet-api'
-        exclude module: 'xercesImpl'
-        exclude module: 'xmlParserAPIs'
-        exclude module: 'spring-core'
-        exclude module: 'bsh'
-        exclude module: 'spring-beans'
-        exclude module: 'jaxen'
-        exclude module: 'barcode4j'
-        exclude module: 'batik-svg-dom'
-        exclude module: 'batik-xml'
-        exclude module: 'batik-awt-util'
-        exclude module: 'batik-dom'
-        exclude module: 'batik-css'
-        exclude module: 'batik-gvt'
-        exclude module: 'batik-script'
-        exclude module: 'batik-svggen'
-        exclude module: 'batik-util'
-        exclude module: 'batik-bridge'
-        exclude module: 'persistence-api'
-        exclude module: 'jdtcore'
-        exclude module: 'bcmail-jdk16'
-        exclude module: 'bcprov-jdk16'
-        exclude module: 'bctsp-jdk16'
-        exclude module: 'bcmail-jdk14'
-        exclude module: 'bcprov-jdk14'
-        exclude module: 'bctsp-jdk14'
-        exclude module: 'xmlbeans'
-        exclude module: 'olap4j'
+        ['antlr','commons-logging','ant','mondrian','commons-javaflow','barbecue','xml-apis-ext','xml-apis','xalan','groovy-all','hibernate','saaj-api','servlet-api','xercesImpl','xmlParserAPIs','spring-core','bsh','spring-beans','jaxen','barcode4j','batik-svg-dom','batik-xml','batik-awt-util','batik-dom','batik-css','batik-gvt','batik-script','batik-svggen','batik-util','batik-bridge','persistence-api','jdtcore','bcmail-jdk16','bcprov-jdk16','bctsp-jdk16','bcmail-jdk14','bcprov-jdk14','bctsp-jdk14','xmlbeans','olap4j'].each {name->
+            exclude module: name
+        }
     }
     compile "org.apache.poi:poi:3.10-FINAL"
     compile "commons-io:commons-io:2.2"
+    compile "org.codehaus.groovy:groovy-ant:2.4.7"
 
     console "org.grails:grails-console"
     profile "org.grails.profiles:web-plugin"
