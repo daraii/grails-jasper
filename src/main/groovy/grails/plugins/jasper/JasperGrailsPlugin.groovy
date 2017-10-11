@@ -36,7 +36,7 @@ class JasperGrailsPlugin extends Plugin {
     Closure doWithSpring() { {->
         imageServlet(ImageServlet)
         dispatchServletRegistrationBean(ServletRegistrationBean) {
-            servlet = ref(ImageServlet)
+            servlet = ref('imageServlet')
             urlMappings = ["/reports/image"]
         }
     } }
