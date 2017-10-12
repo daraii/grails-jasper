@@ -86,16 +86,16 @@ bootRun {
 // enable if you wish to package this plugin as a standalone application
 bootRepackage.enabled = false
 grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    githubSlug = 'puneetbehl/grails-jasper'
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
+    title = "Jasper Reports"
+    desc = """This plugin adds easy support for launching jasper reports from GSP pages. After installing, run your application and request (app-url)/jasper/demo for a demonstration and instructions.
+"""
+    developers = [puneetbehl:"Puneet Behl"]
 }
 
 apply from: "gradle/documentation.gradle"
