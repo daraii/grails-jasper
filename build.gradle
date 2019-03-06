@@ -8,28 +8,20 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
         classpath 'org.ajoberstar:gradle-git:1.4.2'
     }
 }
 
-plugins {
-    id "io.spring.dependency-management" version "0.5.1.RELEASE"
-    id "com.jfrog.bintray" version "1.1"
-}
-
-version "2.0.0.RC2"
+version "2.1.0.RC1"
 group "org.grails.plugins"
 
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: "spring-boot"
-apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-gsp"
-// Used for publishing to central repository, remove if not needed
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+apply plugin:"eclipse"
+apply plugin:"idea"
+apply plugin:"org.grails.grails-plugin"
+apply plugin:"org.grails.grails-plugin-publish"
+apply plugin:"org.grails.grails-gsp"
 
 ext {
     grailsVersion = project.grailsVersion
@@ -40,107 +32,71 @@ ext {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
 repositories {
     mavenLocal()
-    mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$grailsVersion"
-    }
-    applyMavenExclusions false
-}
-
 dependencies {
-    provided 'org.springframework.boot:spring-boot-starter-logging'
-    provided "org.springframework.boot:spring-boot-starter-actuator"
-    provided "org.springframework.boot:spring-boot-autoconfigure"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.grails:grails-core"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-web-boot"
+    compile "org.grails:grails-logging"
+    compile "org.grails:grails-plugin-rest"
+    compile "org.grails:grails-plugin-databinding"
+    compile "org.grails:grails-plugin-i18n"
+    compile "org.grails:grails-plugin-services"
+    compile "org.grails:grails-plugin-url-mappings"
+    compile "org.grails:grails-plugin-interceptors"
+    compile "org.grails.plugins:cache"
+    compile "org.grails.plugins:async"
+    compile "org.grails.plugins:scaffolding"
+    compile "org.grails.plugins:gsp"
 
-    provided "org.grails:grails-web-boot"
-    provided "org.grails:grails-dependencies"
-    provided 'javax.servlet:javax.servlet-api:3.1.0'
-
-    testCompile "org.grails:grails-plugin-testing"
+    compile "com.lowagie:itext:2.1.7"
+    compile("net.sf.jasperreports:jasperreports:5.6.1") {
+        ['antlr','commons-logging','ant','mondrian','commons-javaflow','barbecue','xml-apis-ext','xml-apis','xalan','groovy-all','hibernate','saaj-api','servlet-api','xercesImpl','xmlParserAPIs','spring-core','bsh','spring-beans','jaxen','barcode4j','batik-svg-dom','batik-xml','batik-awt-util','batik-dom','batik-css','batik-gvt','batik-script','batik-svggen','batik-util','batik-bridge','persistence-api','jdtcore','bcmail-jdk16','bcprov-jdk16','bctsp-jdk16','bcmail-jdk14','bcprov-jdk14','bctsp-jdk14','xmlbeans','olap4j'].each {name->
+            exclude module: name
+        }
+    }
+    compile "org.apache.poi:poi:3.10-FINAL"
+    compile "commons-io:commons-io:2.2"
+    compile "org.codehaus.groovy:groovy-ant:2.4.7"
 
     console "org.grails:grails-console"
-
-    compile('com.lowagie:itext:2.1.7')
-
-    compile('net.sf.jasperreports:jasperreports:5.6.1') {
-        exclude module: 'antlr'
-        exclude module: 'commons-logging'
-        exclude module: 'ant'
-        exclude module: 'mondrian'
-        exclude module: 'commons-javaflow'
-        exclude module: 'barbecue'
-        exclude module: 'xml-apis-ext'
-        exclude module: 'xml-apis'
-        exclude module: 'xalan'
-        exclude module: 'groovy-all'
-        exclude module: 'hibernate'
-        exclude module: 'saaj-api'
-        exclude module: 'servlet-api'
-        exclude module: 'xercesImpl'
-        exclude module: 'xmlParserAPIs'
-        exclude module: 'spring-core'
-        exclude module: 'bsh'
-        exclude module: 'spring-beans'
-        exclude module: 'jaxen'
-        exclude module: 'barcode4j'
-        exclude module: 'batik-svg-dom'
-        exclude module: 'batik-xml'
-        exclude module: 'batik-awt-util'
-        exclude module: 'batik-dom'
-        exclude module: 'batik-css'
-        exclude module: 'batik-gvt'
-        exclude module: 'batik-script'
-        exclude module: 'batik-svggen'
-        exclude module: 'batik-util'
-        exclude module: 'batik-bridge'
-        exclude module: 'persistence-api'
-        exclude module: 'jdtcore'
-        exclude module: 'bcmail-jdk16'
-        exclude module: 'bcprov-jdk16'
-        exclude module: 'bctsp-jdk16'
-        exclude module: 'bcmail-jdk14'
-        exclude module: 'bcprov-jdk14'
-        exclude module: 'bctsp-jdk14'
-        exclude module: 'xmlbeans'
-        exclude module: 'olap4j'
-    }
-
-    compile('org.apache.poi:poi:3.10-FINAL')
-
-    compile('org.grails.plugins:hibernate')
-    compile('commons-io:commons-io:2.2')
-
+    profile "org.grails.profiles:web-plugin"
+    provided "org.grails:grails-plugin-services"
+    provided "org.grails:grails-plugin-domain-class"
+    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.2"
+    testCompile "org.grails:grails-gorm-testing-support"
+    testCompile "org.grails:grails-plugin-testing"
+    testCompile "org.grails.plugins:geb"
+    testCompile "org.grails:grails-web-testing-support"
+    testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
+    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
 
-
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
+bootRun {
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    addResources = true
 }
-
-bintray {
-  pkg {
-  	user = System.getenv('BINTRAY_USER')
+// enable if you wish to package this plugin as a standalone application
+bootRepackage.enabled = false
+grailsPublish {
+    user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
-    userOrg = '' // If you want to publish to an organization
-    name = "$project.name"
-	licenses = ['Apache-2.0']
-    issueTrackerUrl = "https://github.com/puneetbehl/grails-$project.name/issues"
-    vcsUrl = "https://github.com/puneetbehl/grails-$project.name"
-    version {
-      attributes = ['grails-plugin': "$project.group:$project.name"]
-      name = project.version
+    githubSlug = 'puneetbehl/grails-jasper'
+    license {
+        name = 'Apache-2.0'
     }
-  }
+    title = "Jasper Reports"
+    desc = """This plugin adds easy support for launching jasper reports from GSP pages. After installing, run your application and request (app-url)/jasper/demo for a demonstration and instructions.
+"""
+    developers = [puneetbehl:"Puneet Behl"]
 }
-
 
 apply from: "gradle/documentation.gradle"
 apply from: "gradle/publish.gradle"
