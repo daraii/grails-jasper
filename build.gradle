@@ -79,6 +79,13 @@ dependencies {
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 }
 
+jar {
+    exclude "jasperDemo/**"
+    exclude "public/reports/**"
+    exclude "**/test/**"
+    exclude "docs/**"
+}
+
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true

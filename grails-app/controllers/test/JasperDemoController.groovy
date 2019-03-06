@@ -14,11 +14,9 @@
  *
  */
 
-package grails.plugins.jasper
+package test
 
 import java.text.SimpleDateFormat
-
-import grails.plugins.jasper.demo.ExamplePersonForReport
 
 /*
  * @author mfpereira 2007

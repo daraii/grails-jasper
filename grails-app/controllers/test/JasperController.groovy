@@ -14,7 +14,11 @@
  *
  */
 
-package grails.plugins.jasper
+package test
+
+import grails.plugins.jasper.JasperExportFormat
+import grails.plugins.jasper.JasperReportDef
+import grails.plugins.jasper.JasperService
 
 import javax.servlet.http.HttpSession
 
