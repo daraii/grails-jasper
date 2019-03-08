@@ -37,7 +37,7 @@ import org.asciidoctor.gradle.AsciidoctorTask
 
 tasks.withType(AsciidoctorTask) {
     attributes asciidoctorAttributes
-    outputDir new File(buildDir, 'docs/docs')
+    outputDir new File(buildDir, 'docs/manual')
     separateOutputDirs = false
     sourceDir = file('src/docs')
     sources {
