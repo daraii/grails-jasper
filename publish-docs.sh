@@ -20,6 +20,7 @@ cd gh-pages
 if [[ $TRAVIS_BRANCH == 'master' ]]; then
     mkdir -p snapshot
     cp -r ../build/docs/manual/. ./snapshot/
+    cp -r ../build/docs/groovydoc ./snapshot/
 
     git add snapshot/*
 fi
