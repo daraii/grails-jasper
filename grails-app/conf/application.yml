@@ -84,3 +84,13 @@ grails:
 endpoints:
     jmx:
         unique-names: true
+environments:
+    development:
+        logging:
+            config: classpath:logback-dev.xml
+    test:
+        logging:
+            config: classpath:logback-test.xml
+    production:
+        logging:
+            config: classpath:logback-prod.xml
