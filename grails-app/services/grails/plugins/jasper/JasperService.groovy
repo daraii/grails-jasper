@@ -228,30 +228,30 @@ class JasperService {
 
         if (jrDataSource != null) {
             if (resource.getFilename().endsWith('.jasper')) {
-                jasperPrint = JasperFillManager.fillReport(resource.inputStream, reportDef.parameters, jrDataSource)
+                jasperPrint = JasperFillManager.fillReport(resource.inputStream, reportDef.parameters, (JRDataSource)jrDataSource)
             }
             else {
                 forceTempFolder()
-                jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters, jrDataSource)
+                jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters, (JRDataSource)jrDataSource)
             }
         }
         else {
 
-            Sql sql = new Sql(dataSource)
+            Sql sql = dataSource ? new Sql(dataSource) : null
             Connection connection = dataSource?.getConnection()
 
             try {
                 if (resource.getFilename().endsWith('.jasper')) {
-                    jasperPrint = JasperFillManager.fillReport(resource.inputStream, reportDef.parameters, connection)
+                    jasperPrint = JasperFillManager.fillReport(resource.inputStream, reportDef.parameters, (Connection)connection)
                 }
                 else {
                     forceTempFolder()
-                    jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters,  connection)
+                    jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters, (Connection)connection)
                 }
             }
             finally {
-                sql.close()
-                connection.close()
+                sql?.close()
+                connection?.close()
             }
         }
 
@@ -261,7 +261,7 @@ class JasperService {
     /**
      * Apply additional parameters to the exporter. If the user submits a parameter that is not available for
      * the file format this parameter is ignored.
-     * @param fields , available fields for the choosen file format
+     * @param fields , available fields for the chosen file format
      * @param exporter , the exporter object
      * @param parameter , the parameters to apply
      */
