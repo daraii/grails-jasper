@@ -11,7 +11,6 @@
 	<parameter name="name" class="java.lang.String">
 		<defaultValueExpression><![CDATA["<parameter error>"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="schconid" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -41,7 +40,7 @@
 				<textElement>
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Hi, "+$P{name}+"!" + $P{schconid}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Hi, "+$P{name}+"!"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
