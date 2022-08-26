@@ -18,6 +18,8 @@ githubPages {
     }
 }
 
-task publishDocs(dependsOn: [docs, publishGhPages]) << {
+task publishDocs(dependsOn: [docs, publishGhPages]) {
+    doLast {
 
+    }
 }

@@ -3,13 +3,16 @@ buildscript {
         maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.6'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+        classpath "org.asciidoctor:asciidoctor-gradle-jvm:3.3.2"
+        classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.1'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.6.2'
     }
 }
 
-apply plugin: 'org.asciidoctor.convert'
+//import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
+apply plugin: "org.asciidoctor.jvm.convert"
+//apply plugin: "org.asciidoctor.jvm.base"
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',
@@ -26,31 +29,46 @@ def asciidoctorAttributes = [
         producer            : 'Asciidoctor',
         revnumber           : project.version,
         setanchors          : true,
-        'source-highlighter' : 'prettify',
+        'source-highlighter': 'prettify',
         toc                 : 'left',
         toc2                : '',
         toclevels           : '2',
         grailsVersion       : project.grailsVersion
 ]
 
-import org.asciidoctor.gradle.AsciidoctorTask
+// Commented to issues with creating custom tasks in the newest Asciidoctor plugin.
+// https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/504
+//tasks.withType(AsciidoctorTask) {
+//    attributes asciidoctorAttributes
+//    outputDir new File(buildDir, 'docs/manual')
+//    sourceDir = file('src/docs')
+//    sources {
+//        include 'index.adoc'
+//        include 'ref/index.adoc'
+//    }
+//}
 
-tasks.withType(AsciidoctorTask) {
-    attributes asciidoctorAttributes
+//task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML and PDF') {
+//    outputOptions {
+//        backends 'html5', 'pdf'
+//        separateOutputDirs = false
+//    }
+//}
+
+asciidoctor {
     outputDir new File(buildDir, 'docs/manual')
-    separateOutputDirs = false
     sourceDir = file('src/docs')
     sources {
         include 'index.adoc'
         include 'ref/index.adoc'
     }
+    outputOptions {
+        separateOutputDirs = false
+        backends 'pdf', 'html5'
+    }
 }
 
-task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML and PDF') {
-    backends 'html5', 'pdf'
-}
-
-task docs(dependsOn: [groovydoc, asciidoc]) {
+task docs(dependsOn: [groovydoc, asciidoctor]) {
     doLast {
         File dir = new File(buildDir, 'docs/manual')
         ['pdf'].each { String ext ->
