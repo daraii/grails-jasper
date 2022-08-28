@@ -14,7 +14,7 @@
  *
  */
 
-package test
+package grails.plugins.jasper
 
 import grails.plugins.jasper.JasperExportFormat
 import grails.plugins.jasper.JasperReportDef
