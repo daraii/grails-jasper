@@ -16,19 +16,20 @@
 
 package grails.plugins.jasper
 
-import grails.util.Holders
-import grails.validation.Validateable
-import net.sf.jasperreports.engine.JRDataSource
-import net.sf.jasperreports.engine.JasperPrint
-import org.apache.commons.io.FilenameUtils
-import grails.validation.Validateable
-import net.sf.jasperreports.engine.JRDataSource
-import net.sf.jasperreports.engine.JasperPrint
 
+import grails.validation.Validateable
+import net.sf.jasperreports.engine.JRDataSource
+import net.sf.jasperreports.engine.JasperPrint
+import net.sf.jasperreports.export.ExporterConfiguration
+import net.sf.jasperreports.export.ReportExportConfiguration
 import org.apache.commons.io.FilenameUtils
 import grails.util.Holders
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.Resource
+
+import java.nio.file.InvalidPathException
+
+import static grails.plugins.jasper.JasperPluginUtils.REPORT_DIRECTORY_PROP
 
 /**
  * An abstract representation of a Jasper report.
@@ -89,6 +90,10 @@ class JasperReportDef implements Serializable, Validateable {
 
   JasperPrint jasperPrinter
 
+  ReportExportConfiguration reportExportConfiguration
+
+  ExporterConfiguration exporterConfiguration
+
   private getApplicationContext() {
     return Holders.grailsApplication.mainContext
   }
@@ -108,9 +113,14 @@ class JasperReportDef implements Serializable, Validateable {
       return result
     }
 
-    result = new FileSystemResource(path + ".jasper")
-    if (result.exists()) {
-      return result
+    try {
+      result = new FileSystemResource(path + ".jasper")
+      if (result.exists()) {
+        return result
+      }
+    }
+    catch(InvalidPathException e){
+      //swallow
     }
 
     result = getApplicationContext().getResource(path + ".jrxml")
@@ -118,9 +128,14 @@ class JasperReportDef implements Serializable, Validateable {
       return result
     }
 
-    result = new FileSystemResource(path + ".jrxml")
-    if (result.exists()) {
-      return result
+    try {
+      result = new FileSystemResource(path + ".jrxml")
+      if (result.exists()) {
+        return result
+      }
+    }
+    catch(InvalidPathException e){
+      //swallow
     }
 
     throw new Exception("No such report spec: ${path} (jasper or .jrxml)")
@@ -128,22 +143,23 @@ class JasperReportDef implements Serializable, Validateable {
 
   /**
    * Return the file path. The filepath can be set per file (highest priority) or based on
-   * the jasper.dir.reports setting. Defaults to /report.
+   * the jasper.dir.reports setting. Defaults to classpath:/public/reports.
    * @return full path to the report, without extension
    */
   String getFilePath() {
     if (folder) {
-      return folder + File.separator + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
+      return folder + "/" + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
     }
-    if (Holders.config.jasper.dir.reports) {
-      return Holders.config.jasper.dir.reports + File.separator + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
+    def configReportDir = Holders.grailsApplication.config.getProperty(REPORT_DIRECTORY_PROP, String)
+    if (configReportDir) {
+      return configReportDir + "/" + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
     }
-    return "/reports" + File.separator + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
+    return  "classpath:/public/reports" + "/" + FilenameUtils.getPath(name) + FilenameUtils.getBaseName(name)
   }
 
   void setFilePath(String path) {
     folder = FilenameUtils.getPath(path)
-    name = FilenameUtils.getName(path)
+    name = FilenameUtils.getBaseName(path)
   }
 
   /**

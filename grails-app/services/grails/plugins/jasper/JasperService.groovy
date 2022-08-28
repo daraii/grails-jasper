@@ -14,19 +14,19 @@
  *
  */
 
- package grails.plugins.jasper
+package grails.plugins.jasper
 
 import grails.gorm.transactions.Transactional
 import groovy.sql.Sql
 import net.sf.jasperreports.engine.*
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter
-import net.sf.jasperreports.engine.export.JRTextExporterParameter
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter
-import net.sf.jasperreports.engine.util.JRProperties
+import net.sf.jasperreports.export.CommonExportConfiguration
+import net.sf.jasperreports.export.Exporter
+import net.sf.jasperreports.export.ExporterConfiguration
+import net.sf.jasperreports.export.ReportExportConfiguration
+import net.sf.jasperreports.export.SimpleExporterInput
 import org.springframework.core.io.Resource
-
-import java.lang.reflect.Field
+import static grails.plugins.jasper.JasperPluginUtils.TEMP_COMPILE_SUBDIRECTORY
 import java.sql.Connection
 
 /**
@@ -39,7 +39,7 @@ class JasperService {
 
     def dataSource
 
-    static final boolean FORCE_TEMP_FOLDER = false
+    static final boolean FORCE_TEMP_DIRECTORY = false
 
     /**
      * Build a JasperReportDef form a parameter map. This is used by the taglib.
@@ -66,10 +66,11 @@ class JasperService {
             try {
                 reportData = testModel.data
             } catch (Throwable e) {
-                throw new Exception("Expected chainModel.data parameter to be a Collection, but it was ${chainModel.data.class.name}", e)
+                throw new Exception("Expected chainModel data parameter to be a Collection, but it was ${testModel.data.class.name}", e)
             }
-        } else {
-            testModel = getProperties().containsKey('model') ? model : null
+        }
+        else {
+            testModel = getProperties().containsKey('model') ? model : null //?
             if (testModel?.data) {
                 try {
                     reportData = testModel.data
@@ -89,8 +90,9 @@ class JasperService {
     }
 
     @Deprecated
-    ByteArrayOutputStream generateReport(String jasperReportDir, JasperExportFormat format, Collection reportData, Map parameters) {
-        JasperReportDef reportDef = new JasperReportDef(name: parameters._file, folder: jasperReportDir, reportData: reportData, fileFormat: format, parameters: parameters)
+    ByteArrayOutputStream generateReport(String jasperReportPath, JasperExportFormat format, Collection reportData, Map parameters) {
+        JasperReportDef reportDef = new JasperReportDef(name: parameters._file, folder: jasperReportPath, reportData: reportData, fileFormat: format,
+                parameters: parameters)
         return generateReport(reportDef)
     }
 
@@ -102,17 +104,20 @@ class JasperService {
      */
     ByteArrayOutputStream generateReport(JasperReportDef reportDef) {
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream()
-        JRExporter exporter = generateExporter(reportDef)
-
-        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArray)
-        exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8")
+        def exporter = generateExporter(reportDef)
+        def exporterConfig = getExporterConfiguration(reportDef)
+        def reportExportConfig = getExportReportConfiguration(reportDef)
+        exporter.setConfiguration(reportExportConfig)
+        exporter.setConfiguration(exporterConfig)
+        exporter.setExporterOutput(JasperExportFormat.getExporterOutput(reportDef.fileFormat, byteArray))
 
         def jasperPrint = reportDef.jasperPrinter
         if (jasperPrint==null) {
             reportDef.jasperPrinter = generatePrinter(reportDef)
         }
-
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportDef.jasperPrinter)
+        exporter.setExporterInput(new SimpleExporterInput(reportDef.jasperPrinter))
+        reportDef.reportExportConfiguration = reportExportConfig
+        reportDef.exporterConfiguration = exporterConfig
         exporter.exportReport()
 
         return byteArray
@@ -120,21 +125,17 @@ class JasperService {
 
     /**
      * Generate a single report based on a list of jasper files.
-     * @param format , target format
      * @param reports , a List with report objects
-     * @param parameters , additional parameters
      * return ByteArrayOutStream with the generated Report
      */
     ByteArrayOutputStream generateReport(List<JasperReportDef> reports) {
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream()
-        JRExporter exporter = generateExporter(reports.first())
-
-        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, byteArray)
-        exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8")
-
+        Exporter exporter = generateExporter(reports.first())
+        def format = reports.first().fileFormat
+        exporter.setExporterOutput(JasperExportFormat.getExporterOutput(format, byteArray))
         def printers = reports.collect { report -> generatePrinter(report) }
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, printers)
-
+        exporter.setExporterInput(new SimpleExporterInput(printers))
+        reports*.exporterConfiguration = exporter
         exporter.exportReport()
 
         return byteArray
@@ -149,24 +150,18 @@ class JasperService {
         /* TODO This is currently disabled, because it doesn't work. Jasper Reports seems to always use the current
          * folder (.) no matter what.  (I'll be filing a bug report against Jasper Reports itself shortly - Craig Jones 16-Aug-2008)
          */
-        if (FORCE_TEMP_FOLDER) {
+        if (FORCE_TEMP_DIRECTORY) {
             // Look up the home folder explicitly (don't trust that tilde notation will work).
             String userHomeDir = System.getProperty('user.home')
-            File tempFolder = new File(userHomeDir, "/.grails/.jasper")
+            File tempFolder = new File(userHomeDir, TEMP_COMPILE_SUBDIRECTORY)
 
-            // This is the current official means for setting the temp folder for jasper reports to use when compiling
-            // reports on the fly, but it doesn't work
-            JRProperties.setProperty(JRProperties.COMPILER_TEMP_DIR, tempFolder.getAbsolutePath())
-
-            // This is a deprecated means for setting the temp folder that supposedly still works (still in the Jasper
-            // Reports source code trunk as of 14-Aug-2008, and, in fact, takes precedence over the official method);
-            // however, it doesn't work either.
-            System.setProperty("jasper.reports.compile.temp", tempFolder.getAbsolutePath())
+           // Sets property if not already set.
+            if(!System.getProperty("net.sf.jasperreports.compiler.temp.dir")) {
+                System.setProperty("net.sf.jasperreports.compiler.temp.dir", tempFolder.getAbsolutePath())
+            }
 
             if (!tempFolder.exists()) {
-                def ant = new AntBuilder()
-                ant.mkdir(dir: tempFolder.getAbsolutePath())
-                if (!tempFolder.exists()) {
+                if (!tempFolder.mkdirs()) {
                     throw new Exception("Unable to create temp folder: ${tempFolder.getPath()}")
                 }
             }
@@ -177,9 +172,9 @@ class JasperService {
      * Generate a exporter with for a JasperReportDef. Note that SUBREPORT_DIR an locale have default
      * values.
      * @param reportDef
-     * @return JRExporter
+     * @return Exporter
      */
-    private JRExporter generateExporter(JasperReportDef reportDef) {
+    private Exporter generateExporter(JasperReportDef reportDef) {
         if (reportDef.parameters.SUBREPORT_DIR == null) {
             reportDef.parameters.SUBREPORT_DIR = reportDef.getFilePath()
         }
@@ -196,19 +191,36 @@ class JasperService {
             reportDef.parameters.REPORT_LOCALE = Locale.getDefault()
         }
 
-        JRExporter exporter = JasperExportFormat.getExporter(reportDef.fileFormat)
-        Field[] fields = JasperExportFormat.getExporterFields(reportDef.fileFormat)
+        def exporter = JasperExportFormat.getExporter(reportDef.fileFormat)
+        return exporter
+    }
 
+    private ReportExportConfiguration getExportReportConfiguration(JasperReportDef reportDef){
+
+        List<MetaProperty> props = JasperExportFormat.getReportConfigurationProperties(reportDef.fileFormat)
+        def reportConfig = JasperExportFormat.getReportConfiguration(reportDef.fileFormat)
         Boolean useDefaultParameters = reportDef.parameters.useDefaultParameters.equals("true")
         if (useDefaultParameters) {
-            applyDefaultParameters(exporter, reportDef.fileFormat)
+            applyDefaultReportExportConfiguration(reportConfig, reportDef.fileFormat)
         }
 
-        if (fields) {
-            applyCustomParameters(fields, exporter, reportDef.parameters)
+        if (props) {
+            applyCustomParameters(props, reportConfig, reportDef.parameters)
         }
 
-        return exporter
+        return reportConfig
+    }
+
+    private ExporterConfiguration getExporterConfiguration(JasperReportDef reportDef){
+
+        List<MetaProperty> props = JasperExportFormat.getExporterProperties(reportDef.fileFormat)
+        def expConfig = JasperExportFormat.getExporterConfiguration(reportDef.fileFormat)
+
+        if (props) {
+            applyCustomParameters(props, expConfig, reportDef.parameters)
+        }
+
+        return expConfig
     }
 
     /**
@@ -232,7 +244,8 @@ class JasperService {
             }
             else {
                 forceTempFolder()
-                jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters, (JRDataSource)jrDataSource)
+                jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters,
+                        (JRDataSource)jrDataSource)
             }
         }
         else {
@@ -246,7 +259,8 @@ class JasperService {
                 }
                 else {
                     forceTempFolder()
-                    jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters, (Connection)connection)
+                    jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(resource.inputStream), reportDef.parameters,
+                            (Connection)connection)
                 }
             }
             finally {
@@ -259,43 +273,48 @@ class JasperService {
     }
 
     /**
-     * Apply additional parameters to the exporter. If the user submits a parameter that is not available for
-     * the file format this parameter is ignored.
-     * @param fields , available fields for the chosen file format
+     * Apply configuration values.
+     * If the user submits a parameter that is not available for the file format this parameter is ignored.
+     * @param properties , available properties for the chosen file format
      * @param exporter , the exporter object
      * @param parameter , the parameters to apply
      */
-    private void applyCustomParameters(Field[] fields, JRExporter exporter, Map<String, Object> parameters) {
-        def fieldNames = fields.collect {it.getName()}
+    private void applyCustomParameters(List<MetaProperty> properties, CommonExportConfiguration configuration, Map<String, Object> parameters) {
+        def propertyNames = properties.collect {it.name}
 
         parameters.each { p ->
-            if (fieldNames.contains(p.getKey())) {
-                def fld = Class.forName(fields.find {it.name = p.getKey()}.clazz.name).getField(p.getKey())
-                exporter.setParameter(fld.get(fld.root.class), p.getValue())
+            def propName = p.getKey()
+            if (propertyNames.contains(propName)) {
+                def prop = configuration.hasProperty(propName)
+                if(prop){
+                    def val = p.getValue()
+                    if(prop.type.isAssignableFrom(val?.getClass())) {
+                        configuration."${propName}" = val
+                    }
+                }
             }
         }
     }
 
     /**
-     * Apply the default parameters for a bunch of file format and only if useDefaultParameters is enabled.
-     * @param exporter , the JRExporter
+     * Apply the default ReportExportConfiguration for a bunch of file formats and only if useDefaultParameters is enabled.
+     * @param exporter , the Exporter
      * @param format , the target file format
      */
-    private void applyDefaultParameters(JRExporter exporter, JasperExportFormat format) {
+    private void applyDefaultReportExportConfiguration(ReportExportConfiguration reportExportConfiguration, JasperExportFormat format) {
         switch (format) {
             case JasperExportFormat.HTML_FORMAT:
-            exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, false)
+                reportExportConfiguration.useBackgroundImageToAlign = false
             break
             case JasperExportFormat.XLS_FORMAT:
-            exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, true)
-            exporter.setParameter(JRXlsExporterParameter.IS_AUTO_DETECT_CELL_TYPE, true)
-            exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, false)
-            exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, true)
+                reportExportConfiguration.onePagePerSheet = true
+                reportExportConfiguration.whitePageBackground = false
+                reportExportConfiguration.removeEmptySpaceBetweenRows = true
+                reportExportConfiguration.detectCellType = true
             break
             case JasperExportFormat.TEXT_FORMAT:
-            exporter.setParameter(JRTextExporterParameter.PAGE_WIDTH, 80)
-            exporter.setParameter(JRTextExporterParameter.PAGE_HEIGHT, 60)
-            exporter.setParameter(JRTextExporterParameter.PAGE_HEIGHT, 60)
+                reportExportConfiguration.pageWidthInChars = 80
+                reportExportConfiguration.pageHightInChars = 60
             break
         }
     }

@@ -16,30 +16,36 @@
 
 package grails.plugins.jasper
 
-import net.sf.jasperreports.engine.JRExporter
-import net.sf.jasperreports.engine.export.JRCsvExporter
-import net.sf.jasperreports.engine.export.JRCsvExporterParameter
-import net.sf.jasperreports.engine.export.JRHtmlExporter
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter
-import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.engine.export.JRPdfExporterParameter
-import net.sf.jasperreports.engine.export.JRRtfExporter
-import net.sf.jasperreports.engine.export.JRTextExporter
-import net.sf.jasperreports.engine.export.JRTextExporterParameter
-import net.sf.jasperreports.engine.export.JRXlsExporter
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter
-import net.sf.jasperreports.engine.export.JRXmlExporter
-import net.sf.jasperreports.engine.export.JRXmlExporterParameter
-import net.sf.jasperreports.engine.JRExporter
 import net.sf.jasperreports.engine.export.*
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter
+import net.sf.jasperreports.export.Exporter
+import net.sf.jasperreports.export.ExporterConfiguration
+import net.sf.jasperreports.export.ExporterOutput
+import net.sf.jasperreports.export.ReportExportConfiguration
+import net.sf.jasperreports.export.SimpleCsvExporterConfiguration
+import net.sf.jasperreports.export.SimpleCsvReportConfiguration
+import net.sf.jasperreports.export.SimpleDocxExporterConfiguration
+import net.sf.jasperreports.export.SimpleDocxReportConfiguration
+import net.sf.jasperreports.export.SimpleExporterConfiguration
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration
+import net.sf.jasperreports.export.SimplePdfReportConfiguration
+import net.sf.jasperreports.export.SimpleReportExportConfiguration
+import net.sf.jasperreports.export.SimpleRtfExporterConfiguration
+import net.sf.jasperreports.export.SimpleRtfReportConfiguration
+import net.sf.jasperreports.export.SimpleXlsExporterConfiguration
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration
+import net.sf.jasperreports.export.SimpleXmlExporterOutput
 
-import java.lang.reflect.Field
 
 /*
  * The supported file formats with their mimetype and file extension.
@@ -89,7 +95,7 @@ enum JasperExportFormat implements Serializable {
       case "DOCX": return JasperExportFormat.DOCX_FORMAT
       case "XLSX": return JasperExportFormat.XLSX_FORMAT
       case "PPTX": return JasperExportFormat.PPTX_FORMAT
-      default: throw new Exception(message(code: "jasper.controller.invalidFormat", args: [format]))
+      default: throw new RuntimeException("Invalid JasperExportFormat = ${format}")
     }
   }
 
@@ -98,10 +104,10 @@ enum JasperExportFormat implements Serializable {
    * @param format
    * @return exporter
    */
-  static JRExporter getExporter(JasperExportFormat format) {
+  static Exporter getExporter(JasperExportFormat format) {
     switch (format) {
       case PDF_FORMAT:  return new JRPdfExporter()
-      case HTML_FORMAT: return new JRHtmlExporter()
+      case HTML_FORMAT: return new HtmlExporter()
       case XML_FORMAT:  return new JRXmlExporter()
       case CSV_FORMAT:  return new JRCsvExporter()
       case XLS_FORMAT:  return new JRXlsExporter()
@@ -112,26 +118,148 @@ enum JasperExportFormat implements Serializable {
       case DOCX_FORMAT: return new JRDocxExporter()
       case XLSX_FORMAT: return new JRXlsxExporter()
       case PPTX_FORMAT: return new JRPptxExporter()
-      default: throw new Exception(message(code: "jasper.controller.invalidFormat", args: [format]))
+      default: throw new RuntimeException("Invalid JasperExportFormat = ${format}")
+    }
+  }
+
+
+  /**
+   *
+   * @param format
+   * @return
+   */
+  static ExporterOutput getExporterOutput(JasperExportFormat format, ByteArrayOutputStream byteArrayOutputStream){
+    switch (format) {
+      case PDF_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case HTML_FORMAT: return new SimpleHtmlExporterOutput(byteArrayOutputStream)
+      case XML_FORMAT:  return new SimpleXmlExporterOutput(byteArrayOutputStream)
+      case CSV_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case XLS_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case RTF_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case TEXT_FORMAT: return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case ODT_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case ODS_FORMAT:  return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case DOCX_FORMAT: return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case XLSX_FORMAT: return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      case PPTX_FORMAT: return new SimpleOutputStreamExporterOutput(byteArrayOutputStream)
+      default: throw new RuntimeException("Invalid JasperExportFormat = ${format}")
     }
   }
 
   /**
-   * Return the available Fields for a given JasperExportFormat.
+   *
    * @param format
-   * @return Field[] , null if no fields are available for the format
+   * @return
    */
-  static Field[] getExporterFields(JasperExportFormat format) {
+  static ExporterConfiguration getExporterConfiguration(JasperExportFormat format) {
     switch (format) {
-      case PDF_FORMAT:  return JRPdfExporterParameter.getFields()
-      case HTML_FORMAT: return JRHtmlExporterParameter.getFields()
-      case XML_FORMAT:  return JRXmlExporterParameter.getFields()
-      case CSV_FORMAT:  return JRCsvExporterParameter.getFields()
-      case XLS_FORMAT:  return JRXlsExporterParameter.getFields()
-      case XLSX_FORMAT: return JRXlsExporterParameter.getFields()
-      case RTF_FORMAT:  return JRTextExporterParameter.getFields()
-      case DOCX_FORMAT: return JRDocxExporterParameter.getFields()
+      case PDF_FORMAT:  return new SimplePdfExporterConfiguration()
+      case HTML_FORMAT: return new SimpleHtmlExporterConfiguration()
+      case XML_FORMAT:  return new SimpleExporterConfiguration()
+      case CSV_FORMAT:  return new SimpleCsvExporterConfiguration()
+      case XLS_FORMAT:  return new SimpleXlsExporterConfiguration()
+      case XLSX_FORMAT: return new SimpleXlsxExporterConfiguration()
+      case RTF_FORMAT:  return new SimpleRtfExporterConfiguration()
+      case DOCX_FORMAT: return new SimpleDocxExporterConfiguration()
       default: return null
     }
+  }
+
+  /**
+   *
+   * @param format
+   * @return
+   */
+  static ReportExportConfiguration getReportConfiguration(JasperExportFormat format) {
+    switch (format) {
+      case PDF_FORMAT:  return new SimplePdfReportConfiguration()
+      case HTML_FORMAT: return new SimpleHtmlReportConfiguration()
+      case XML_FORMAT:  return new SimpleReportExportConfiguration()
+      case CSV_FORMAT:  return new SimpleCsvReportConfiguration()
+      case XLS_FORMAT:  return new SimpleXlsReportConfiguration()
+      case XLSX_FORMAT: return new SimpleXlsxReportConfiguration()
+      case RTF_FORMAT:  return new SimpleRtfReportConfiguration()
+      case DOCX_FORMAT: return new SimpleDocxReportConfiguration()
+      default: return null
+    }
+  }
+
+
+  /**
+   * Return the available ExporterConfiguration fields for a given JasperExportFormat.
+   * @param format
+   * @return List<MetaProperty> , null if no fields are available for the format
+   */
+    static List<MetaProperty> getExporterProperties(JasperExportFormat format) {
+      List<MetaProperty> props
+      Class clazz
+      switch (format) {
+        case PDF_FORMAT:
+          clazz = SimplePdfExporterConfiguration
+          break
+        case HTML_FORMAT:
+          clazz =  SimpleHtmlExporterConfiguration
+          break
+        case XML_FORMAT:
+          clazz = SimpleExporterConfiguration
+          break
+        case CSV_FORMAT:
+          clazz = SimpleCsvExporterConfiguration
+          break
+        case XLS_FORMAT:
+          clazz = SimpleXlsExporterConfiguration
+          break
+        case XLSX_FORMAT:
+          clazz = SimpleXlsxExporterConfiguration
+          break
+        case RTF_FORMAT:
+          clazz = SimpleRtfExporterConfiguration
+          break
+        case DOCX_FORMAT:
+          clazz = SimpleDocxExporterConfiguration
+          break
+        default: return null
+      }
+      props = clazz.metaClass.getProperties().findAll{((MetaBeanProperty)it).setter != null}
+      return props
+    }
+
+  /**
+   * Return the available ReportExportConfiguration fields for a given JasperExportFormat.
+   * @param format
+   * @return List<MetaProperty> , null if no fields are available for the format
+   */
+  static List<MetaProperty> getReportConfigurationProperties(JasperExportFormat format) {
+    List<MetaProperty> props
+    Class clazz
+    switch (format) {
+      case PDF_FORMAT:
+        clazz = SimplePdfReportConfiguration
+        break
+      case HTML_FORMAT:
+        clazz = SimpleHtmlReportConfiguration
+        break
+      case XML_FORMAT:
+        clazz = SimpleReportExportConfiguration
+        break
+      case CSV_FORMAT:
+        clazz = SimpleCsvReportConfiguration
+        break
+      case XLS_FORMAT:
+        clazz = SimpleXlsReportConfiguration
+        break
+      case XLSX_FORMAT:
+        clazz = SimpleXlsxReportConfiguration
+        break
+      case RTF_FORMAT:
+        clazz = SimpleRtfReportConfiguration
+        break
+      case DOCX_FORMAT:
+        clazz = SimpleDocxReportConfiguration
+        break
+      default: return null
+    }
+    props = clazz.metaClass.getProperties().findAll{((MetaBeanProperty)it).setter != null}
+    return props
   }
 }
