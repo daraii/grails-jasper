@@ -9,7 +9,9 @@
     <title>Welcome to Jasper-Grails</title>
     <meta name="layout" content="main"/>
     <style>
-        ul {padding-left: 15px;}
+    ul {
+        padding-left: 15px;
+    }
     </style>
 </head>
 
@@ -95,7 +97,7 @@
                 </pre>
             </div>
         </div>
-        
+
         <hr class="divider"/>
 
         <div class="row">
@@ -457,14 +459,16 @@
                 Here is the controller code that sets up the data for the Grails-supplied data example, above.
                 As you can see, it then chains to the jasper/index action which handles everything else.
                 <pre>
-                    def exampleWithData = {
-                    List people = [
-                    new ExamplePersonForReport(name: 'Amy', email: 'amy@example.com'),
-                    new ExamplePersonForReport(name: 'Brad', email: 'brad@example.com'),
-                    new ExamplePersonForReport(name: 'Charlie', email: 'charlie@example.com')]
+                    <code>
+                        def exampleWithData = {
+                        List people = [
+                        new ExamplePersonForReport(name: 'Amy', email: 'amy@example.com'),
+                        new ExamplePersonForReport(name: 'Brad', email: 'brad@example.com'),
+                        new ExamplePersonForReport(name: 'Charlie', email: 'charlie@example.com')]
 
-                    chain(controller:'jasper',action:'index',model:[data:people],params:params)
-                    }
+                        chain(controller:'jasper',action:'index',model:[data:people],params:params)
+                        }
+                    </code>
                 </pre>
                 In the real world, this would be a GORM method call.  Something like: List people = ExamplePersonForReport.findAll()
             </div>
@@ -481,17 +485,20 @@
                 map you create a simple object containing the relevant data.
 
                 <pre>
-                    def reportDef = JasperReportDef(name:'your_report.jasper',
-                    fileFormat:JasperExportFormat.PDF_FORMAT
-                    )
+                    <code>
+                        def reportDef = JasperReportDef(name:'your_report.jasper',
+                        fileFormat:JasperExportFormat.PDF_FORMAT
+                        )
+                    </code>
                 </pre>
 
-                As you can see there are only two required attributes. Of course you need provide the name of your report and the target file
+                As you can see there are only two required attributes. Of course, you need provide the name of your report and the target file
                 format. All available file formats can be found in the <strong>JasperExportFormat</strong> enum. You just have to choose one. <br/><br/>
 
                 Additional attributes are:
                 <ul>
-                    <li><strong>folder</strong>: the folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.
+                    <li>
+                        <strong>folder</strong>: the folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.
                     </li>
                     <li><strong>locale</strong>: Locale to use in the report generation.</li>
                     <li><strong>parameters</strong>: All additional parameters as a Map.</li>
