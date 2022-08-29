@@ -10,3 +10,4 @@ Many thanks to all the users who reported issues and sent pull requests.
 * https://github.com/puneetbehl[Puneet Behl]
 * https://github.com/mansi90[Mansi Arora]
 * https://github.com/ManvendraSK[Manvendra Singh]
+* https://github.com/daraii

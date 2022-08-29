@@ -1,4 +1,4 @@
 [[issues]]
 === Issues
 
-All issues must be reported to https://github.com/puneetbehl/grails-jasper/issues[GitHub Issues].
+All issues must be reported to https://github.com/daraii/grails-jasper/issues[GitHub Issues].

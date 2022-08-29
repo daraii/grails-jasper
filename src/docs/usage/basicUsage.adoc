@@ -99,28 +99,26 @@ def reportDef = JasperReportDef(name:'your_report.jasper', fileFormat:JasperExpo
 
 ----
 
-As you can see there are only two required attributes. Of course you need provide the name of your report and the target file format. All available file formats can be found in the `<strong>JasperExportFormat</strong>` enum. You just have to choose one.
+As you can see there are only two required attributes. Of course, you need provide the name of your report and the target file format. All available file formats can be found in the `*JasperExportFormat*` enum. You just have to choose one.
 
 _JasperReportDef has the following properties:_
 
-* name - Name of the Report. (Required)
-* fileFormat - Fileformat of the Report. Please use the JasperExportFormat Enum. (Required)
-* folder - The folder where you placed your reports. Defaults to /reports if unset and no global setting (jasper.report.dir in Config.groovy) exists.
-* reportData - Collection containing the data of your report (leave empty if you want to use a SQL query inside your report)
-* locale - Locale to use in the report generation.
-* parameters - All additional parameters as a Map.
+* *name* - Name of the Report. (Required)
+* *fileFormat* - File format of the Report. Please use the JasperExportFormat Enum. (Required)
+* *folder* - The folder where you placed your reports. Defaults to `classpath:/public/reports` if unset and no global setting (jasper.report.dir in application.yml, application.groovy or application.properties) exists.
+* *reportData* - Collection containing the data of your report (leave empty if you want to use a SQL query inside your report)
+* *locale* - Locale to use in the report generation.
+* *parameters* - All additional report and exporter parameters as a Map.
 
-All you need to do now is to call one of the methods provided in `<strong>JasperService</strong>`:
+All you need to do now is to call one of the methods provided in `*JasperService*`:
+
 * `generateReport(JasperReportDef reportDef)` - Generate a "normal" report.
 * `generateReport(List<JasperReportDef> reports)` - Generate a single response containing multiple reports.
-	
+
 Both return a ByteArrayOutputStream with which you can do everything you want.
 
 [source, groovy]
 ----
-import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
-import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
-
 class YourClass {
 	
 	def jasperService

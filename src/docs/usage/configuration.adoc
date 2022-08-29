@@ -1,11 +1,11 @@
 [[configuration]]
 === Configuration
 
-The default location for your report templates is `/src/main/webapp/reports` in your project directory. Here you can place your *.jasper or *.jrxml (jrxml files will be compiled automatically by the plugin).
+The default location for your report templates is `classpath:/public/reports` in your project directory. Here you can place your `&#42;.jasper` or `&#42;.jrxml` (`jrxml` files will be compiled automatically by the plugin).
 
 [[INFO]]
 ====
-Work with `jrxml` files if you can! They can be compiled by the plugin if a newer jasperreport version is available. This way you don't need to manually recompile all your reports if you want to use the new version with braking changes.
+Work with `jrxml` files if you can! They can be compiled by the plugin if a newer JasperReports version is available. This way you don't need to manually recompile all your reports if you want to use the new version with braking changes.
 ====
 
 You can set another report folder location with the jasper.dir.reports property in your `application.yml`.
@@ -15,9 +15,13 @@ You can set another report folder location with the jasper.dir.reports property 
 ----
 jasper:
 	dir:
-		reports: '../src/main/webapp/reports'
+		reports: 'classpath:/public/reports'
 
 ----
+[NOTE]
+====
+Notice the directory locations and other paths are represented using the Spring Framework's Resource notation. Please check the https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#resources[documentation] for how to represent your report location.
+====
 
 It's possible to use different locations for different environments.
 
@@ -28,11 +32,12 @@ environments:
 	development:
 		jasper:
 			dir:
-				reports: '../src/main/webapp/reports'
+				reports: 'classpath:/public/reports'
 	production:
 		jasper:
 			dir:
-				reports: '/home/jasper-reports'
+				reports: 'classpath:/public/prod/reports'
 
 ----
+
 
