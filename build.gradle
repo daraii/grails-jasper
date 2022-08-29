@@ -17,7 +17,7 @@ buildscript {
 }
 
 version "2.2.0.BUILD-SNAPSHOT"
-group "org.grails.plugins"
+group "io.jellycat.plugins"
 
 apply plugin: "eclipse"
 apply plugin: "idea"
