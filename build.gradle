@@ -16,8 +16,11 @@ buildscript {
     }
 }
 
-version "2.2.0.BUILD-SNAPSHOT"
-group "io.jellycat.plugins"
+plugins{
+    id 'signing'
+    id 'maven-publish'
+    id('io.github.gradle-nexus.publish-plugin') version '1.1.0'
+}
 
 apply plugin: "eclipse"
 apply plugin: "idea"
@@ -25,22 +28,80 @@ apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "org.asciidoctor.jvm.base"
 
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-    jasperReportsVersion = "6.20.0"
-}
+version "2.2.0.BUILD-SNAPSHOT"
+group "io.jellycat.plugins"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group
+            artifactId = 'grails-jasper'
+            version = project.version
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'JasperReports Grails Plugin'
+                description = 'This plugin adds easy support for launching JasperReports from GSP pages and provides services and controllers for generating reports.'
+                url = 'https://github.com/daraii/grails-jasper'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'daraii'
+                        name = 'AN (Daraii)'
+                        email = 'daraii@jellycat.io'
+                    }
+                }
+                scm {
+                    connection = 'scm:git://github.com:daraii/grails-jasper.git'
+                    developerConnection = 'scm:git://github.com:daraii/grails-jasper.git'
+                    url = 'https://github.com/daraii/grails-jasper'
+                }
+            }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
+
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}
 
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
 }
 
-dependencies {
+ext {
+    grailsVersion = project.grailsVersion
+    gradleWrapperVersion = project.gradleWrapperVersion
+    jasperReportsVersion = "6.20.0"
+    isReleaseVersion = !version.endsWith("SNAPSHOT")
+}
 
+dependencies {
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "org.grails:grails-core"
@@ -90,6 +151,17 @@ jar {
     exclude "public/reports/**"
     exclude "**/test/**"
     exclude "docs/**"
+    exclude "grails/plugins/jasper/demo/**"
+    exclude "*demo*"
+
+    //Remove the demo.gsp from the release jar.
+    List excludesViews = ['demo.gsp']
+
+    eachFile { f ->
+        if (f.path.contains('views.properties')) {
+            filter { line -> excludesViews.find{!line.contains(it)} ? line : null}
+        }
+    }
 }
 
 bootRun {
@@ -107,6 +179,10 @@ tasks.withType(GroovyCompile) {
 
 tasks.withType(Test) {
     useJUnitPlatform()
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
 }
 
 // enable if you wish to package this plugin as a standalone application
