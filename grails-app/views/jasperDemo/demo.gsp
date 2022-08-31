@@ -54,7 +54,7 @@
                     <li>The jars for executing .jasper reports (already compiled) and/or compiling them from .jrxml files, on the fly, first.</li>
                     <li>A GSP taglib for launching reports.</li>
                     <li>Corresponding controller and service logic (that can be invoked directly)</li>
-                    <li>Seven 32x32 icons (web-app/images/icons/*.gif) .</li>
+                    <li>Seven 52x73 icons (src/main/public/images/icons/*.png) .</li>
                     <li>This demo GSP page.</li>
                 </ul>
             </div>

@@ -5,4 +5,4 @@
 * The jars for executing `.jasper` reports (already compiled) and/or compiling them from `.jrxml` files, on the fly, first.
 * A GSP taglib for launching reports.
 * Corresponding controller and service logic (that can be invoked directly)
-* `32x32` icons (`src/main/public/images/icons/&#42;.gif`) for every supported file format .
+* `35x47` icons (`src/main/public/images/icons/&#42;.png`) for every supported file format .

@@ -56,22 +56,22 @@ class JasperTagLibSpec extends Specification implements TagLibUnitTest<JasperTag
 		expect:
 		applyTemplate('<g:jasperReport format="pdf" jasper="myreport"/>').squeezeWhitespace() == 
 			"""| <a class="jasperButton" title="PDF" href="/myapp/jasper?_format=PDF&_name=&_file=myreport">
-        <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a> | """.squeezeWhitespace()
+        <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a> | """.squeezeWhitespace()
 	}
 	
 	void "call using all default values, should result in a single, plain link, but with delimiters suppressed"() {
 		expect:
 		applyTemplate('<g:jasperReport format="pdf" jasper="myreport" name="The Report" delimiter=" "/>').squeezeWhitespace() == 
 		"""<a class="jasperButton" title="PDF" href="/myapp/jasper?_format=PDF&_name=The+Report&_file=myreport">
-                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a>  <strong>The Report</strong>""".squeezeWhitespace()
+                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a>  <strong>The Report</strong>""".squeezeWhitespace()
 	}
 	
 	void "should result in dual links with delimiters suppressed"() {
 		expect:
 		applyTemplate('<g:jasperReport format="pdf, rtf" jasper="myreport" name="The Report" delimiter=" "/>').squeezeWhitespace() ==
 		"""<a class="jasperButton" title="PDF" href="/myapp/jasper?_format=PDF&_name=The+Report&_file=myreport">
-                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a>  <a class="jasperButton" title="RTF" href="/myapp/jasper?_format=RTF&_name=The+Report&_file=myreport">
-                <img border="0" alt="RTF" src="/myapp/static/images/icons/RTF.gif" /></a>  <strong>The Report</strong>""".squeezeWhitespace()
+                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a>  <a class="jasperButton" title="RTF" href="/myapp/jasper?_format=RTF&_name=The+Report&_file=myreport">
+                <img border="0" alt="RTF" src="/myapp/static/images/icons/RTF.png" /></a>  <strong>The Report</strong>""".squeezeWhitespace()
 	}
 	
 	void "a minimal call with a report name"() {
@@ -79,7 +79,7 @@ class JasperTagLibSpec extends Specification implements TagLibUnitTest<JasperTag
 		applyTemplate('<g:jasperReport format="pdf" jasper="myreport" name="Print as PDF"/>').squeezeWhitespace() == 
 		"""|
                 <a class="jasperButton" title="PDF" href="/myapp/jasper?_format=PDF&_name=Print+as+PDF&_file=myreport">
-                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a> | <strong>Print as PDF</strong>""".squeezeWhitespace()
+                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a> | <strong>Print as PDF</strong>""".squeezeWhitespace()
 	}
 	
 	
@@ -88,7 +88,7 @@ class JasperTagLibSpec extends Specification implements TagLibUnitTest<JasperTag
 		applyTemplate('<g:jasperReport format="pdf" jasper="myreport" description="Print as PDF"/>').squeezeWhitespace() == 
 		"""|
                 <a class="jasperButton" title="PDF" href="/myapp/jasper?_format=PDF&_name=&_file=myreport">
-                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a> | Print as PDF""".squeezeWhitespace()
+                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a> | Print as PDF""".squeezeWhitespace()
 	}
 	
 	void "a call with a body, thus resulting in a form"() {
@@ -99,7 +99,7 @@ class JasperTagLibSpec extends Specification implements TagLibUnitTest<JasperTag
                   <input type="hidden" name="_name" value="" />
                   <input type="hidden" name="_file" value="myreport" />
                 | <a href="#" class="jasperButton" title="PDF" onclick="return submit_myreport(this)">
-                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.gif" /></a> |&nbsp;A Body</form>
+                <img border="0" alt="PDF" src="/myapp/static/images/icons/PDF.png" /></a> |&nbsp;A Body</form>
                 """).squeezeWhitespace()
 	}
 }

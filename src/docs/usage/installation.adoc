@@ -16,7 +16,7 @@ Add the following plugin under plugins in BuildConfig.groovy:
 
 [source,groovy]
 ----
-compile "org.grails.plugins:jasper:1.11.0"
+compile "org.grails.plugins:jasper:2.2.0"
 ----
 
 #### What is installed?
@@ -24,5 +24,5 @@ compile "org.grails.plugins:jasper:1.11.0"
 * The jars for executing .jasper reports (already compiled) and/or compiling them from .jrxml files, on the fly, first.
 * A GSP taglib for launching reports.
 * Corresponding controller and service logic (that can be invoked directly)
-* 32x32 icons (web-app/images/icons/*.gif) for every supported file format .
+* 35x47 icons (src/main/public/images/icons/*.gif) for every supported file format .
 * a demo GSP page
