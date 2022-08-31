@@ -14,7 +14,7 @@
  * 
  */
 
-package test
+package grails.plugins.jasper.demo
 
 /**
  * For demonstration purposes

@@ -4,7 +4,7 @@ import grails.testing.mixin.integration.Integration
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
-import test.ExamplePersonForReport
+import grails.plugins.jasper.demo.ExamplePersonForReport
 
 @Integration
 class JasperServiceIntegrationSpec extends Specification {

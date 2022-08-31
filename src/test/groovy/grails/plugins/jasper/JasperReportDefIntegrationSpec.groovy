@@ -41,6 +41,9 @@ class JasperReportDefIntegrationSpec extends Specification {
 
         then:
         report.getReport().exists()
+
+        cleanup:
+        grails.util.Holders.grailsApplication.config.remove(JasperPluginUtils.REPORT_DIRECTORY_PROP)
     }
 
     void "Get sample report with file path"() {
