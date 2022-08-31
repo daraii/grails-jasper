@@ -6,7 +6,7 @@ Add the following dependency under `build.gradle`:
 
 [source,groovy]
 ----
-implementation "io.jellycat:jasper:2.2.0"
+implementation "io.jellycat.plugins:jasper:2.2.0"
 ----
 
 ==== For Grails 3.x

@@ -1,5 +1,5 @@
 = Grails Jasper Plugin - Reference Documentation
-Puneet Behl
+AN (Daraii)
 
 :jasper: http://community.jaspersoft.com/project/jasperreports-library/resources
 

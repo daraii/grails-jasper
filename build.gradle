@@ -4,15 +4,17 @@ buildscript {
     }
     repositories {
         mavenLocal()
+        mavenCentral()
+        jcenter()
         maven { url "https://repo.grails.org/grails/core" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
         classpath "org.grails.plugins:hibernate5:7.2.2"
-        classpath 'org.ajoberstar:gradle-git:1.4.2'
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.3.4"
-        classpath "org.asciidoctor:asciidoctor-gradle-jvm:3.3.2"
+        classpath 'org.ajoberstar.git-publish:gradle-git-publish:3.0.1'
+        classpath "org.ajoberstar.grgit:grgit-gradle:4.1.1"
     }
 }
 
@@ -20,13 +22,16 @@ plugins{
     id 'signing'
     id 'maven-publish'
     id('io.github.gradle-nexus.publish-plugin') version '1.1.0'
+    id "org.asciidoctor.jvm.pdf" version "3.3.2"
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-gsp"
-apply plugin: "org.asciidoctor.jvm.base"
+apply plugin: 'org.ajoberstar.git-publish'
+apply plugin: "org.ajoberstar.grgit"
 
 version "2.2.0.BUILD-SNAPSHOT"
 group "io.jellycat.plugins"

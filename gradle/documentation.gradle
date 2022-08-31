@@ -1,18 +1,5 @@
-buildscript {
-    repositories {
-        maven { url 'https://repo.grails.org/grails/core' }
-    }
-    dependencies {
-        classpath "org.asciidoctor:asciidoctor-gradle-jvm:3.3.2"
-        classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.1'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.6.2'
-    }
-}
 
 //import org.asciidoctor.gradle.jvm.AsciidoctorTask
-
-apply plugin: "org.asciidoctor.jvm.convert"
-//apply plugin: "org.asciidoctor.jvm.base"
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',
@@ -56,6 +43,8 @@ def asciidoctorAttributes = [
 //}
 
 asciidoctor {
+    baseDirFollowsSourceDir()
+    attributes asciidoctorAttributes
     outputDir new File(buildDir, 'docs/manual')
     sourceDir = file('src/docs')
     sources {
