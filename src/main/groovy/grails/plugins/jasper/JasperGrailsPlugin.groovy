@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean
 class JasperGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "3.3.1 > *"
+    def grailsVersion = "5.1.9 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
         "grails-app/views/jasperDemo/demo.gsp",
@@ -28,13 +28,15 @@ class JasperGrailsPlugin extends Plugin {
 
     def documentation = "http://www.grails.org/plugin/jasper"
     def license = "APACHE"
-    def developers = [	[ name: "Burt Beckwith", email: "burt@burtbeckwith.com" ],
-                          [ name: "Puneet Behl", email: "puneet.behl007@gmail.com" ],
-                          [ name: "Mansi Arora", email: "mansi.arora@tothenew.com" ],
-                          [ name: "Manvendra Singh", email: "manvendrask@live.com" ],
+    def developers = [
+            [ name: "Burt Beckwith", email: "burt@burtbeckwith.com" ],
+            [ name: "Puneet Behl", email: "puneet.behl007@gmail.com" ],
+            [ name: "Mansi Arora", email: "mansi.arora@tothenew.com" ],
+            [ name: "Manvendra Singh", email: "manvendrask@live.com" ],
+            [ name: "Daraii", email: "daraii@jellycat.io" ]
     ]
-    def issueManagement = [system: "JIRA", url: "https://github.com/puneetbehl/grails-jasper/issues"]
-    def scm = [url: "https://github.com/puneetbehl/grails-jasper"]
+    def issueManagement = [system: "GITHUB", url: "https://github.com/daraii/grails-jasper/issues"]
+    def scm = [url: "https://github.com/daraii/grails-jasper"]
 
     Closure doWithSpring() { {->
         imageServlet(ImageServlet)
@@ -43,5 +45,4 @@ class JasperGrailsPlugin extends Plugin {
             urlMappings = ["/reports/image"]
         }
     } }
-
 }
