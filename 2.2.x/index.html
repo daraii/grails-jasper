@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="AN (Daraii)">
+<meta name="copyright" content="Apache License, Version 2.0">
 <title>Grails Jasper Plugin - Reference Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,18 +437,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Grails Jasper Plugin - Reference Documentation</h1>
 <div class="details">
 <span id="author" class="author">AN (Daraii)</span><br>
 <span id="revnumber">version 2.2.0</span>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#introduction">1. Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#features">1.1. Features</a></li>
+<li><a href="#issues">1.2. Issues</a></li>
+<li><a href="#releaseNotes">1.3. Release Notes</a></li>
+<li><a href="#acknowledgements">1.4. Acknowledgments</a></li>
+<li><a href="#license">1.5. License</a></li>
+</ul>
+</li>
+<li><a href="#usage">2. Usage</a>
+<ul class="sectlevel2">
+<li><a href="#installation">2.1. Installation</a></li>
+<li><a href="#configuration">2.2. Configuration</a></li>
+<li><a href="#basicUsage">2.3. Basic usage</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>JasperReports is an open source Java reporting tool for producing documents that can be viewed, printed or exported in different formats such as PDF, HTML, Microsoft Excel, RTF, OpenOffice, XML, comma-separated values (CSV) or Word. It can be used in Java-enabled applications, including Java EE or web applications, to generate dynamic content.</p>
@@ -465,7 +488,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Contributors are welcome.</p>
 </div>
 <div class="sect2">
-<h3 id="features">Features</h3>
+<h3 id="features">1.1. Features</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -484,13 +507,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="issues">Issues</h3>
+<h3 id="issues">1.2. Issues</h3>
 <div class="paragraph">
 <p>All issues must be reported to <a href="https://github.com/daraii/grails-jasper/issues">GitHub Issues</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="releaseNotes">Release Notes</h3>
+<h3 id="releaseNotes">1.3. Release Notes</h3>
 <div class="ulist">
 <div class="title">Version 2.0</div>
 <ul>
@@ -755,12 +778,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="acknowledgements">Acknowledgments</h3>
+<h3 id="acknowledgements">1.4. Acknowledgments</h3>
 <div class="paragraph">
 <p>Many thanks to all the users who reported issues and sent pull requests.</p>
 </div>
 <div class="sect3">
-<h4 id="_authors_and_contributors">Authors and Contributors</h4>
+<h4 id="authors-and-contributors">1.4.1. Authors and Contributors</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -786,7 +809,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="license">License</h3>
+<h3 id="license">1.5. License</h3>
 <div class="paragraph">
 <p>This plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
 </div>
@@ -794,45 +817,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="usage">Usage</h2>
+<h2 id="usage">2. Usage</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="installation">Installation</h3>
+<h3 id="installation">2.1. Installation</h3>
 <div class="sect3">
-<h4 id="_for_grails_5_x">For Grails 5.x</h4>
+<h4 id="for-grails-5-x">2.1.1. For Grails 5.x</h4>
 <div class="paragraph">
 <p>Add the following dependency under <code>build.gradle</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">implementation "io.jellycat.plugins:jasper:2.2.0"</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation "io.jellycat.plugins:jasper:2.2.0"</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_for_grails_3_x">For Grails 3.x</h4>
+<h4 id="for-grails-3-x">2.1.2. For Grails 3.x</h4>
 <div class="paragraph">
 <p>Add the following dependency under <code>build.gradle</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:jasper:2.0.0.RC1"</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">compile "org.grails.plugins:jasper:2.0.0.RC1"</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_for_grails_2_x">For Grails 2.x</h4>
+<h4 id="for-grails-2-x">2.1.3. For Grails 2.x</h4>
 <div class="paragraph">
 <p>Add the following plugin under plugins in <code>BuildConfig.groovy</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile "org.grails.plugins:jasper:2.2.0"</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">compile "org.grails.plugins:jasper:2.2.0"</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_what_is_installed">What is installed?</h4>
+<h4 id="what-is-installed">2.1.4. What is installed?</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -852,7 +875,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration">Configuration</h3>
+<h3 id="configuration">2.2. Configuration</h3>
 <div class="paragraph">
 <p>The default location for your report templates is <code>classpath:/public/reports</code> in your project directory. Here you can place your <code>&#42;.jasper</code> or <code>&#42;.jrxml</code> (<code>jrxml</code> files will be compiled automatically by the plugin).</p>
 </div>
@@ -869,7 +892,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">application.yml</div>
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">jasper:
+<pre class="prettyprint highlight"><code data-lang="yaml">jasper:
 	dir:
 		reports: 'classpath:/public/reports'</code></pre>
 </div>
@@ -878,7 +901,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -894,7 +917,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="title">application.yml</div>
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">environments:
+<pre class="prettyprint highlight"><code data-lang="yaml">environments:
 	development:
 		jasper:
 			dir:
@@ -907,14 +930,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="basicUsage">Basic usage</h3>
+<h3 id="basicUsage">2.3. Basic usage</h3>
 <div class="sect3">
-<h4 id="_tags">Tags</h4>
+<h4 id="tags">2.3.1. Tags</h4>
 <div class="paragraph">
 <p>The plugin provides a number of tags to help with the integration in your pages.</p>
 </div>
 <div class="sect4">
-<h5 id="_jasperreport">jasperReport</h5>
+<h5 id="jasperreport">jasperReport</h5>
 <div class="paragraph">
 <p>The <code>jasperReport</code> tag generates a button for every file specified file format. With a click on one of these icons you generate the report which is returned as the response.</p>
 </div>
@@ -922,7 +945,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -934,7 +957,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">&lt;g:jasperReport
+<pre class="prettyprint highlight"><code data-lang="groovy">&lt;g:jasperReport
           jasper="sample-jasper-plugin"
           format="PDF,HTML,XML,CSV,XLS,RTF,TEXT,ODT,ODS,DOCX,XLSX,PPTX"
           name="Parameter Example"&gt;
@@ -980,7 +1003,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_jasperform">jasperForm</h5>
+<h5 id="jasperform">jasperForm</h5>
 <div class="paragraph">
 <p>The <code>jasperForm</code> works the same way as the <code>jasperReport</code> tag, but gives you more control over how the form is rendered in HTML.</p>
 </div>
@@ -988,7 +1011,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -1000,7 +1023,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">&lt;g:jasperForm controller="jasper" action="exampleWithData" id="1498" jasper="w_iReport" &gt;
+<pre class="prettyprint highlight"><code data-lang="groovy">&lt;g:jasperForm controller="jasper" action="exampleWithData" id="1498" jasper="w_iReport" &gt;
 
     ..form contents..
 
@@ -1035,13 +1058,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_jasperbutton">jasperButton</h5>
+<h5 id="jasperbutton">jasperButton</h5>
 <div class="paragraph">
 <p>Use the <code>jasperButton</code> inside a <code>jasperForm</code> to submit and generate the report.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy"> &lt;g:jasperButton format="pdf" jasper="jasper-test" text="PDF" /&gt;</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy"> &lt;g:jasperButton format="pdf" jasper="jasper-test" text="PDF" /&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1063,7 +1086,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_services">Services</h4>
+<h4 id="services">2.3.2. Services</h4>
 <div class="paragraph">
 <p>From version 1.1 upwards it&#8217;s possible to generate your report, without the controller action from above, with simple service methods (so that you can generate your reports with a cron job in combination with the Quartz plugin).</p>
 </div>
@@ -1072,7 +1095,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">def reportDef = JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">def reportDef = JasperReportDef(name:'your_report.jasper', fileFormat:JasperExportFormat.PDF_FORMAT)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1121,7 +1144,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">class YourClass {
+<pre class="prettyprint highlight"><code data-lang="groovy">class YourClass {
 
 	def jasperService
 
@@ -1136,7 +1159,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -1157,5 +1180,7 @@ Version 2.2.0<br>
 Last updated 2022-09-01 18:17:30 -0400
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
 </body>
 </html>
