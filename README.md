@@ -1,5 +1,5 @@
 # Grails Jasper Plugin
-[![Build Status](https://api.travis-ci.org/candrews/grails-jasper.png)](http://travis-ci.org/candrews/grails-jasper)
+[![Build Status](https://github.com/daraii/grails-jasper/actions/workflows/gradle.yml/badge.svg)](https://github.com/daraii/grails-jasper/actions/workflows/gradle.yml)
 
 # Usage
 
