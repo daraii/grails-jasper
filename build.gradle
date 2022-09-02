@@ -33,7 +33,7 @@ apply plugin: "org.grails.grails-gsp"
 apply plugin: 'org.ajoberstar.git-publish'
 apply plugin: "org.ajoberstar.grgit"
 
-version "2.2.0.BUILD-SNAPSHOT"
+version "2.2.0"
 group "io.jellycat.plugins"
 
 sourceCompatibility = 1.8
