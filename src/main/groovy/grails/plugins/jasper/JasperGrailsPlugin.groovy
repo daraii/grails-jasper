@@ -22,8 +22,7 @@ class JasperGrailsPlugin extends Plugin {
     def author = "Craig Andrews"
     def authorEmail = "candrews@integralblue.com"
     def description = '''
-    Adds easy support for launching jasper reports from GSP pages.
-    After installing, run your application and request (app-url)/jasper/demo for a demonstration and instructions.
+    Adds easy support for launching JasperReports reports from GSP pages.
     '''
     def profiles = ['web']
 

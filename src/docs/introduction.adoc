@@ -3,7 +3,7 @@
 
 JasperReports is an open source Java reporting tool for producing documents that can be viewed, printed or exported in different formats such as PDF, HTML, Microsoft Excel, RTF, OpenOffice, XML, comma-separated values (CSV) or Word. It can be used in Java-enabled applications, including Java EE or web applications, to generate dynamic content.
 
-This plugin is a port of the original JasperReports https://github.com/candrews/grails-jasper[plugin] later https://github.com/puneetbehl/grails-jasper[updated] for *Grails 3* to the newest JasperReports API and based of *Grails 5*, that adds easy support for launching jasper reports from GSP pages.
+This plugin is a port of the original JasperReports https://github.com/candrews/grails-jasper[plugin] later https://github.com/puneetbehl/grails-jasper[updated] for *Grails 3* to the newest JasperReports API, and based of *Grails 5*, that adds easy support for launching _JasperReports_ reports from GSP pages.
 
 The plugin package names have been kept the same and the methods and taglib are compatible with previous versions.
 
